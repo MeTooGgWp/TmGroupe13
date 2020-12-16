@@ -1,6 +1,8 @@
 package model;
 
-public class HealthPointManager {
+import java.io.Serializable;
+
+public class HealthPointManager implements Serializable {
 
     private int maxHp;
     private int currentHp,temporaryHp,hpDice;

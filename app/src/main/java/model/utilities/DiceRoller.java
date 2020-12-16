@@ -4,7 +4,7 @@ import android.util.Log;
 
 import java.util.Random;
 
-public abstract class diceRoller {
+public  class DiceRoller {
 
     public static int roll(int diceType){
         Random rand = new Random();

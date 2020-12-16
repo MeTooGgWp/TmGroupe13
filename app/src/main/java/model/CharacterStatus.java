@@ -1,6 +1,8 @@
 package model;
 
-public class CharacterStatus {
+import java.io.Serializable;
+
+public class CharacterStatus implements Serializable {
 
     private int classeArmure,initiative;
     private float vitesse;

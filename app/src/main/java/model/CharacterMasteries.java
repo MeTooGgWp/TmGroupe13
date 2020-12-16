@@ -1,6 +1,8 @@
 package model;
 
-public class CharacterMasteries {
+import java.io.Serializable;
+
+public class CharacterMasteries implements Serializable {
 
     private String maitrises,langues;
 

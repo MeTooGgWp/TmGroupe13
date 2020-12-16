@@ -1,6 +1,8 @@
 package model;
 
-public class PersonalityAndBackground {
+import java.io.Serializable;
+
+public class PersonalityAndBackground implements Serializable {
 
     private String traitDePersonnalite;
     private String ideaux;

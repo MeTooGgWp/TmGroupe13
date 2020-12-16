@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="SizeStatLayout">77dp</dimen>
+    <dimen name="StatisticsLayoutWidth">82dp</dimen>
+    <dimen name="SingleStatLayoutWidth">74dp</dimen>
+    <dimen name="SingleStatMarginTop">2dp</dimen>
+    <dimen name="SingleStatMarginLeft">4dp</dimen>
+    <dimen name="StatisticsTitleTextSize">13dp</dimen>
+    <dimen name="SingleStatMarginBottom">2dp</dimen>
+    <dimen name="ModifierMarginTop">10dp</dimen>
+    <dimen name="CharacterInfoLayoutWidth">228dp</dimen>
+    <dimen name="CharacterInfoLayoutHeight">44dp</dimen>
+    <dimen name="CharacterInfoLayoutHeightDemi">22dp</dimen>
+    <dimen name="TextSizeBasicInfo">10dp</dimen>
+    <dimen name="texteSizeDefault">9dp</dimen>
+    <dimen name="UpperLeftInfoRectWidth">96dp</dimen>
+    <dimen name="UpperLeftInfoRectHeight">29dp</dimen>
+    <dimen name="SizeBetweenCheckBoxes">20dp</dimen>
+    <dimen name="HpZoneHeight">100dp</dimen>
+    <dimen name="HpZoneWidth">165dp</dimen>
+</resources>

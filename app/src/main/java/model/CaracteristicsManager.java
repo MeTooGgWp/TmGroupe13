@@ -1,6 +1,8 @@
 package model;
 
-public class CaracteristicsManager {
+import java.io.Serializable;
+
+public class CaracteristicsManager implements Serializable {
 
     private int force,dexterite,constitution,intelligence,sagesse,charisme;
 

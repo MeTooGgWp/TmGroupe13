@@ -1,6 +1,8 @@
 package model;
 
-public class BasicCharacterInfo {
+import java.io.Serializable;
+
+public class BasicCharacterInfo implements Serializable {
 
     private String classe;
     private byte niveau;

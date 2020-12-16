@@ -1,6 +1,8 @@
 package model;
 
-public class MoneyManager {
+import java.io.Serializable;
+
+public class MoneyManager implements Serializable {
 
     private int cuivre,argent,or,platine,electrum;
 

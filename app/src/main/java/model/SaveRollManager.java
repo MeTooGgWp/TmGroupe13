@@ -1,6 +1,8 @@
 package model;
 
-public class SaveRollManager {
+import java.io.Serializable;
+
+public class SaveRollManager implements Serializable {
 
     private boolean forceSave,dexteriteSave,constitutionSave,intelligenceSave,sagesseSave,charismeSave;
 

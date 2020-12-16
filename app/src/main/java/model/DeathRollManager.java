@@ -1,6 +1,8 @@
 package model;
 
-public class DeathRollManager {
+import java.io.Serializable;
+
+public class DeathRollManager implements Serializable {
 
     private int successRoll,failRoll;
 
