@@ -3,6 +3,7 @@ package model;
 import android.content.Intent;
 
 import java.io.Serializable;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +16,9 @@ public class Fiche implements Serializable {
     private String capaciteEtTrait;
     private String note;
     private boolean inspiration;
-    private Competences competences;
+    private List<Competences> competences;
+
+    private List<Attaque> attaques;
 
     //Composant de la fiche :
     private BasicCharacterInfo basicInfo;
@@ -35,6 +38,10 @@ public class Fiche implements Serializable {
         this.capaciteEtTrait ="Je sais faire des trucs";
         this.note = "J'ai pris des notes !";
         this.inspiration = true;
+
+        attaques = new ArrayList<>();
+        attaques.add(new Attaque("Bâton",2,"trcht",5,6));
+
         basicInfo = new BasicCharacterInfo(
                 "Guerrier",
                 (byte) 1,
@@ -89,7 +96,9 @@ public class Fiche implements Serializable {
         ArrayList<Integer> comp = new ArrayList<>();
         comp.add(1);
         comp.add(5);
-        competences = new Competences(comp);
+        competences = new ArrayList<Competences>();
+        competences.add(new Competences(5));
+        competences.add(new Competences(1));
 
     }
 
@@ -216,11 +225,40 @@ public class Fiche implements Serializable {
         this.status = status;
     }
 
-    public Competences getCompetences() {
+   public List<Competences> getCompetences() {
         return competences;
     }
 
-    public void setCompetences(Competences competences) {
+    public void setCompetences(List<Competences> competences) {
         this.competences = competences;
     }
+
+
+    public List<Attaque> getAttaques() {
+        return attaques;
+    }
+
+    public void setAttaques(List<Attaque> attaques) {
+        this.attaques = attaques;
+    }
+
+    @Override
+    public String toString() {
+        return "Fiche{" +
+                "idFiche=" + idFiche +
+                ", idJoueur='" + idJoueur + '\'' +
+                ", Compétence" + competences.toString()+
+                '}';
+    }
+
+
+    public boolean isMasterised(int id){
+        for(Competences c:competences){
+            if (c.getCompetences() == id)
+                return true;
+        }
+        return false;
+    }
+
+
 }

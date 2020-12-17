@@ -14,7 +14,7 @@ public interface FicheService {
     @GET("fiche/{user}")
     Call<List<Fiche>> getFiches(@Path("user") String user);
 
-    /*@POST("Fiches")
-    Call<Fiche> postFiche(@Body Fiche fiche);*/
+    @POST("Fiches")
+    Call<Fiche> postFiche(@Body Fiche fiche);
 
 }

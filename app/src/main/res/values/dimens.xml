@@ -18,4 +18,9 @@
     <dimen name="SizeBetweenCheckBoxes">20dp</dimen>
     <dimen name="HpZoneHeight">100dp</dimen>
     <dimen name="HpZoneWidth">165dp</dimen>
+    <dimen name="AttackBtnHeight">30dp</dimen>
+    <dimen name="AttackBtnWidth">60dp</dimen>
+    <dimen name="AttackListWidth">165dp</dimen>
+    <dimen name="AttackListHeight">160dp</dimen>
+    <dimen name="WalletLayoutWidth">150dp</dimen>
 </resources>

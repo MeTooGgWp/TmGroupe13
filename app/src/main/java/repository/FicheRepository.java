@@ -22,7 +22,8 @@ public class FicheRepository {
 
     private FicheService getFicheService(){ return ApiClient.getClient().create(FicheService.class);}
 
-  /*  public LiveData<List<Fiche>> query() {
+   public LiveData<List<Fiche>> query() {
+       Log.i("Fiche","JE query");
         final MutableLiveData<List<Fiche>> mutableLiveData = new MutableLiveData<>();
         getFicheService().getFiches("Louis").enqueue(new Callback<List<Fiche>>() {
             @Override
@@ -37,9 +38,9 @@ public class FicheRepository {
             }
         });
         return mutableLiveData;
-    }*/
+    }
 
-   /* public LiveData<Fiche> create(Fiche fiche){
+   public LiveData<Fiche> create(Fiche fiche){
         final MutableLiveData<Fiche> mutableLiveData = new MutableLiveData<>();
 
         getFicheService().postFiche(fiche).enqueue(new Callback<Fiche>() {
@@ -56,7 +57,7 @@ public class FicheRepository {
         });
 
         return mutableLiveData;
-    }*/
+    }
 
 
 }

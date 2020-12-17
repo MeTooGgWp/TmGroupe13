@@ -6,24 +6,25 @@ import java.util.List;
 
 public class Competences implements Serializable {
 
-    private List<Integer> competences;
+    private int idComp;
 
     public Competences(){
-        this(new ArrayList<>());
     }
 
-    public Competences(List<Integer> comp){
-        competences = new ArrayList<>();
-        for (int i:comp){
-            competences.add(i);
-        }
+    public Competences(int comp){
+        idComp = comp;
     }
 
+    public int getCompetences() {
+        return idComp;
+    }
 
-    public boolean isMasterised(int id){
-        if(competences.contains(id))
-            return true;
-        return false;
+    public void setCompetences(int competences) {
+        this.idComp = competences;
+    }
+
+    public String toString(){
+        return String.valueOf(idComp);
     }
 
 }

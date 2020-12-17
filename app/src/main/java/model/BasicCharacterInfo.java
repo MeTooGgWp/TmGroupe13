@@ -5,13 +5,13 @@ import java.io.Serializable;
 public class BasicCharacterInfo implements Serializable {
 
     private String classe;
-    private byte niveau;
+    private int niveau;
     private String race;
     private String nomPersonnage;
     private int experience;
 
 
-    public BasicCharacterInfo(String classe,byte niveau,String race,String nomPersonnage,int experience){
+    public BasicCharacterInfo(String classe,int niveau,String race,String nomPersonnage,int experience){
         this.classe = classe;
         this.niveau = niveau;
         this.race = race;
@@ -27,7 +27,7 @@ public class BasicCharacterInfo implements Serializable {
         this.classe = classe;
     }
 
-    public byte getNiveau() {
+    public int getNiveau() {
         return niveau;
     }
 

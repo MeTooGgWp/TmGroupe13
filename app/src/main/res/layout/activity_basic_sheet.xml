@@ -1,11 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/scrollview"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content">
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".BasicSheet">
+    <data>
+        <variable name="main" type="com.example.dragonsheetmanager.MainActivity"/>
+    </data>
 
 
     <LinearLayout
@@ -909,5 +917,117 @@
         </LinearLayout>
     </LinearLayout>
 
+    <ListView
+                android:id="@+id/lv_attaques"
+                android:layout_width="@dimen/AttackListWidth"
+                android:layout_height="@dimen/AttackListHeight"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="@+id/hp_zoneLayout"
+                app:layout_constraintStart_toStartOf="@+id/hp_zoneLayout"
+                app:layout_constraintTop_toBottomOf="@+id/hp_zoneLayout">
+    </ListView>
+
+    <Button
+        android:id="@+id/btn_addAttack"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:text="+"
+        android:textSize="@dimen/texteSizeDefault"
+        app:layout_constraintStart_toStartOf="@+id/lv_attaques"
+        app:layout_constraintTop_toBottomOf="@+id/lv_attaques" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/border"
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="@+id/lv_attaques"
+        app:layout_constraintTop_toBottomOf="@+id/btn_addAttack">
+
+        <TextView
+            android:id="@+id/tv_copperTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="PC" />
+
+        <TextView
+            android:id="@+id/tv_silverTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="PA" />
+
+        <TextView
+            android:id="@+id/tv_electrumTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="PE" />
+
+        <TextView
+            android:id="@+id/tv_goldTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="PO" />
+
+        <TextView
+            android:id="@+id/tv_platineTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="PP" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="@dimen/WalletLayoutWidth"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/border"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="@+id/lv_attaques"
+        app:layout_constraintStart_toEndOf="@+id/linearLayout"
+        app:layout_constraintTop_toBottomOf="@+id/btn_addAttack">
+
+        <TextView
+            android:id="@+id/tv_copperValue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:text="Copper" />
+
+
+        <TextView
+            android:id="@+id/tv_silverValue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:text="Silver" />
+
+
+        <TextView
+            android:id="@+id/tv_electrumValue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:text="Electrum" />
+
+
+        <TextView
+            android:id="@+id/tv_goldValue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:text="Gold" />
+
+
+        <TextView
+            android:id="@+id/tv_platineValue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:text="Platinum" />
+    </LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
