@@ -1,26 +1,30 @@
 package com.example.dragonsheetmanager;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.TextView;
-
-import org.w3c.dom.Text;
+import android.widget.Toast;
 
 import java.util.List;
 
 import model.Attaque;
 import model.Fiche;
-import model.utilities.DiceRoller;
 import model.utilities.ModifierCalculator;
+import repository.FicheRepository;
 
-public class BasicSheet extends AppCompatActivity {
+public class BasicSheet extends AppCompatActivity implements RequestCodes{
+
+    public static final String AUTO_COMPLETE = "AUTO_COMPLETE";
+
 
     private Fiche fiche;
 
@@ -292,6 +296,114 @@ public class BasicSheet extends AppCompatActivity {
         tvNiveau.setText(String.valueOf(fiche.getBasicInfo().getNiveau()));
         tvRace.setText(fiche.getBasicInfo().getRace());
         tvExp.setText(String.valueOf(fiche.getBasicInfo().getExperience()));
+    }
+
+
+    public void modifyNumericValue(View view) {
+        //On "active" le formulaire
+        Intent intent = new Intent(BasicSheet.this, FormUserInputNumericActivity.class);
+
+
+        switch (view.getId())
+        {
+            case R.id.im_forceEdit:
+                startActivityForResult(intent,REQUEST_CODE_FORM_USERINPUT_FORCE);
+                break;
+            case R.id.im_dextEditEdit:
+                startActivityForResult(intent,REQUEST_CODE_FORM_USERINPUT_DEXT);
+                break;
+            case R.id.im_constEdit:
+                startActivityForResult(intent,REQUEST_CODE_FORM_USERINPUT_CONST);
+                break;
+            case R.id.im_intelEdit:
+                startActivityForResult(intent,REQUEST_CODE_FORM_USERINPUT_INTEL);
+                break;
+            case R.id.im_wisdEdit:
+                startActivityForResult(intent,REQUEST_CODE_FORM_USERINPUT_WISD);
+                break;
+            case R.id.im_charEdit:
+                startActivityForResult(intent,REQUEST_CODE_FORM_USERINPUT_CHAR);
+                break;
+
+        }
+    }
+
+    public void modifyStringValue(View view) {
+        //On "active" le formulaire
+        Intent intent = new Intent(BasicSheet.this, FormUserInputStringActivity.class);
+
+        //Gestion des différents boutons :
+        switch(view.getId()){
+            case(R.id.im_masteriesEdit):
+                //Ajout d'un extra permettant d'auto-compléter l'editbox avec les élément déjà présent
+                String extra = ((TextView)findViewById(R.id.tv_masteries)).getText().toString();
+                intent.putExtra(AUTO_COMPLETE,extra);
+                startActivityForResult(intent,REQUEST_CODE_FORM_USERINPUT_MASTERIES);
+                break;
+        }
+
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(resultCode == RESULT_OK){
+            final float reponseNum = data.getFloatExtra(FormUserInputNumericActivity.NUM_VALUE,(float)0);
+            Log.i("Reponse","Retrieve userInput from FormUserInputActivity" + reponseNum);
+            final String reponseStr = data.getStringExtra(FormUserInputStringActivity.STR_VALUE);
+            Log.i("Reponse","Retrieve userInput from FormUserInputActivity" + reponseStr);
+
+                switch (requestCode){
+                    case REQUEST_CODE_FORM_USERINPUT_FORCE:
+                        fiche.getCaracteristics().setForce((int)reponseNum);
+                        initRoughtStat();
+                        initModifier();
+                        break;
+                    case REQUEST_CODE_FORM_USERINPUT_DEXT:
+                        fiche.getCaracteristics().setDexterite((int)reponseNum);
+                        initRoughtStat();
+                        initModifier();
+                        break;
+                    case REQUEST_CODE_FORM_USERINPUT_CONST:
+                        fiche.getCaracteristics().setConstitution((int)reponseNum);
+                        initRoughtStat();
+                        initModifier();
+                        break;
+                    case REQUEST_CODE_FORM_USERINPUT_INTEL:
+                        fiche.getCaracteristics().setIntelligence((int)reponseNum);
+                        initRoughtStat();
+                        initModifier();
+                        break;
+                    case REQUEST_CODE_FORM_USERINPUT_WISD:
+                        fiche.getCaracteristics().setSagesse((int)reponseNum);
+                        initRoughtStat();
+                        initModifier();
+                        //Recalcul de la PP
+                        tvPP.setText(String.valueOf(ModifierCalculator.passivePerceptionCalculator(fiche.getBasicInfo().getNiveau(),fiche.getCaracteristics().getSagesse())));
+                        break;
+                    case REQUEST_CODE_FORM_USERINPUT_CHAR:
+                        fiche.getCaracteristics().setCharisme((int)reponseNum);
+                        initRoughtStat();
+                        initModifier();
+                        break;
+                    case REQUEST_CODE_FORM_USERINPUT_MASTERIES:
+                        fiche.getMasteries().setMaitrises(reponseStr);
+                        initLanguageAndMasteries();
+                        break;
+                }
+
+        }
+        else{
+            Toast.makeText(this,"Une erreur c'est produite",Toast.LENGTH_LONG).show();
+        }
+    }
+
+
+    public void submitToBd(View view) {
+        FicheRepository ficheRepository = new FicheRepository();
+        ficheRepository.update(fiche);
     }
 
 

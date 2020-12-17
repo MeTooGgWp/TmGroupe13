@@ -23,4 +23,8 @@
     <dimen name="AttackListWidth">165dp</dimen>
     <dimen name="AttackListHeight">160dp</dimen>
     <dimen name="WalletLayoutWidth">150dp</dimen>
+    <dimen name="SizeBetweenEditButton">50dp</dimen>
+    <dimen name="SizeTextViewInFicheList">125dp</dimen>
+    <dimen name="imEditWidth">25dp</dimen>
+    <dimen name="imEditHeight">30dp</dimen>
 </resources>

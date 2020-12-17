@@ -25,6 +25,8 @@ public class MainActivity extends AppCompatActivity {
     private ListView lvFiches;
     private FicheArrayAdapter arrayAdapter;
 
+    private String user = "Louis"; //Temporairement fixée (sera établie lors de la liaison avec un compte utilisateur)
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,9 +53,17 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        loadFromdDB(user);
+
+
+
+    }
+
+
+    public void loadFromdDB(String user){
         //Chargement des fiches à partir de la bd
         FicheRepository ficheRepository = new FicheRepository();
-        ficheRepository.query().observe(this, new Observer<List<Fiche>>() {
+        ficheRepository.query(user).observe(this, new Observer<List<Fiche>>() {
             @Override
             public void onChanged(List<Fiche> fichesBd) {
                 fiches.clear();
@@ -61,9 +71,6 @@ public class MainActivity extends AppCompatActivity {
                 arrayAdapter.notifyDataSetChanged();
             }
         });
-
-
-
     }
 
 
@@ -77,5 +84,9 @@ public class MainActivity extends AppCompatActivity {
         //Transfert de la fiche dans l'intent
         i.putExtra("ficheObject",f);
         startActivity(i);
+    }
+
+    public void refresh(View view) {
+        loadFromdDB(user);
     }
 }

@@ -8,31 +8,35 @@
 
     <TextView
         android:id="@+id/tv_characterNameList"
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/SizeTextViewInFicheList"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="24dp"
         android:text="Nom personnage"
+        android:textAlignment="center"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tv_classeList"
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/SizeTextViewInFicheList"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
+        android:layout_marginStart="8dp"
         android:text="Classe personnage"
+        android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="@+id/tv_characterNameList"
         app:layout_constraintStart_toEndOf="@+id/tv_characterNameList"
         app:layout_constraintTop_toTopOf="@+id/tv_characterNameList" />
 
     <TextView
         android:id="@+id/tv_characterLevelList"
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/SizeTextViewInFicheList"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="8dp"
         android:text="Niveau"
+        android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="@+id/tv_classeList"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/tv_classeList"
         app:layout_constraintTop_toTopOf="@+id/tv_classeList" />
 </androidx.constraintlayout.widget.ConstraintLayout>
