@@ -45,6 +45,22 @@ public interface RequestCodes {
     //Afin d'ajouter une attaque
     public static final int REQUEST_CODE_FORM_ATTAQUE_ADD = 25;
 
+    //Afin d'ajouter les details
+    public static final int REQUEST_CODE_FORM_USERINPUT_ALLIES = 26;
+    public static final int REQUEST_CODE_FORM_USERINPUT_AGE = 27 ;
+    public static final int REQUEST_CODE_FORM_USERINPUT_APPARENCE = 28;
+    public static final int REQUEST_CODE_FORM_USERINPUT_BACKSTORY = 29;
+    public static final int REQUEST_CODE_FORM_USERINPUT_CAPACITE = 30 ;
+    public static final int REQUEST_CODE_FORM_USERINPUT_DEFAUT = 31 ;
+    public static final int REQUEST_CODE_FORM_USERINPUT_EQUIPEMENT = 32 ;
+    public static final int REQUEST_CODE_FORM_USERINPUT_HISTORIQUE = 33 ;
+    public static final int REQUEST_CODE_FORM_USERINPUT_IDEAUX = 34 ;
+    public static final int REQUEST_CODE_FORM_USERINPUT_LIENS =  35;
+    public static final int REQUEST_CODE_FORM_USERINPUT_NOTE = 36 ;
+    public static final int REQUEST_CODE_FORM_USERINPUT_TRAIT = 37 ;
+
+    //Afin d'ajouter les sorts
+    public static final int REQUEST_CODE_FORM_SORTS = 38 ;
 
 
 
