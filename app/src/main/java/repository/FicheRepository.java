@@ -8,7 +8,7 @@ import androidx.lifecycle.MutableLiveData;
 import java.util.List;
 
 import api.ApiClient;
-import api.FicheService;
+import api.service.FicheService;
 import model.Fiche;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -24,6 +24,7 @@ public class FicheRepository {
 
    public LiveData<List<Fiche>> query(String user) {
        Log.i("Fiche","JE query");
+
         final MutableLiveData<List<Fiche>> mutableLiveData = new MutableLiveData<>();
         getFicheService().getFiches(user).enqueue(new Callback<List<Fiche>>() {
             @Override

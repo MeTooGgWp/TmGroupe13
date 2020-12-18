@@ -1,4 +1,4 @@
-package api;
+package api.service;
 
 import java.util.List;
 
@@ -13,11 +13,11 @@ import retrofit2.http.Path;
 
 public interface FicheService {
 
-    @GET("fiche/{user}")
+    @GET("api/fiche/{user}")
     Call<List<Fiche>> getFiches(@Path("user") String user);
 
     //@Headers({"Content-Type: application/json"})
-    @PUT("Fiche")
+    @PUT("api/Fiche")
     Call<Fiche> putFiche(@Body Fiche fiche);
 
 }

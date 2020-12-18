@@ -3,13 +3,16 @@ package com.example.dragonsheetmanager;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,15 +28,27 @@ public class MainActivity extends AppCompatActivity {
     private ListView lvFiches;
     private FicheArrayAdapter arrayAdapter;
 
-    private String user = "Louis"; //Temporairement fixée (sera établie lors de la liaison avec un compte utilisateur)
+    private String user ;
+    private String token;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        initUser();
         loadViews();
         initViews();
+
+        loadFromdDB(user);
+    }
+
+    private void initUser() {
+        @SuppressLint("WrongConstant") SharedPreferences sh = getSharedPreferences("User", MODE_APPEND);
+        user = sh.getString("pseudo", "hui");
+        token = sh.getString("token","");
+        Toast.makeText(this,user,Toast.LENGTH_LONG).show();
+
     }
 
     public void loadViews(){
@@ -53,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        loadFromdDB(user);
+
 
 
 

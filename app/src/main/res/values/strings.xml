@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Dragon Sheet Manager</string>
+    <string name="mes_fiches">Mes Fiches</string>
+    <string name="creer_groupe">Créer Groupe</string>
+    <string name="rejoindre_groupe">Rejoindre Groupe</string>
+    <string name="mes_groupes">mes Groupes</string>
+    <string name="deconnexion">Deconnexion</string>
+
 </resources>
