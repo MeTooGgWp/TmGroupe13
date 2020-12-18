@@ -23,19 +23,22 @@
             android:id="@+id/btn_allies"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="allies et organisation" />
+            android:text="allies et organisation"
+            android:onClick="modifyStringValue"/>
 
         <Button
             android:id="@+id/btn_age"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Age" />
+            android:text="Age"
+            android:onClick="modifyStringValue"/>
 
         <Button
             android:id="@+id/btn_apparence"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Apparence" />
+            android:text="Apparence"
+            android:onClick="modifyStringValue"/>
 
         <Button
             android:id="@+id/btn_Backstory"

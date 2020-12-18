@@ -92,7 +92,7 @@ public class BasicSheet extends AppCompatActivity implements RequestCodes{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_basic_sheet);
         //Récupération de l'intent:
-       Intent i = getIntent();
+        Intent i = getIntent();
         //Dans un cadre hors-test passer par values.string !!
         fiche = (Fiche)i.getSerializableExtra("ficheObject");
         //Initialisation des variables "graphique" :
