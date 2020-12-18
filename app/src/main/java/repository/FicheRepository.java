@@ -22,11 +22,11 @@ public class FicheRepository {
 
     private FicheService getFicheService(){ return ApiClient.getClient().create(FicheService.class);}
 
-   public LiveData<List<Fiche>> query(String user) {
+   public LiveData<List<Fiche>> query(String user,String token) {
        Log.i("Fiche","JE query");
 
         final MutableLiveData<List<Fiche>> mutableLiveData = new MutableLiveData<>();
-        getFicheService().getFiches(user).enqueue(new Callback<List<Fiche>>() {
+        getFicheService().getFiches(user,token).enqueue(new Callback<List<Fiche>>() {
             @Override
             public void onResponse(Call<List<Fiche>> call, Response<List<Fiche>> response) {
                 mutableLiveData.postValue(response.body());
@@ -41,10 +41,10 @@ public class FicheRepository {
         return mutableLiveData;
     }
 
-   public LiveData<Fiche> update(Fiche fiche){
+   public LiveData<Fiche> update(Fiche fiche,String token){
         final MutableLiveData<Fiche> mutableLiveData = new MutableLiveData<>();
 
-        getFicheService().putFiche(fiche).enqueue(new Callback<Fiche>() {
+        getFicheService().putFiche(fiche,token).enqueue(new Callback<Fiche>() {
             @Override
             public void onResponse(Call<Fiche> call, Response<Fiche> response) {
                 mutableLiveData.postValue(response.body());

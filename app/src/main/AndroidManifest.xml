@@ -25,6 +25,8 @@
         <activity android:name=".FormUserInputStringActivity"></activity>
         <activity android:name=".FormAttaque"></activity>
         <activity android:name=".MainActivity" />
+        <activity android:name=".SortActivity"></activity>
+        <activity android:name=".SortDescriptionDisplayerActivity"></activity>
     </application>
 
 </manifest>

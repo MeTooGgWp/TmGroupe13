@@ -13,7 +13,6 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="24dp"
         android:text="Nom personnage"
-        android:textAlignment="center"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

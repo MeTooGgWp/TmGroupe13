@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
         @SuppressLint("WrongConstant") SharedPreferences sh = getSharedPreferences("User", MODE_APPEND);
         user = sh.getString("pseudo", "hui");
         token = sh.getString("token","");
-        Toast.makeText(this,user,Toast.LENGTH_LONG).show();
+//        Toast.makeText(this,user,Toast.LENGTH_LONG).show();
 
     }
 
@@ -78,12 +78,20 @@ public class MainActivity extends AppCompatActivity {
     public void loadFromdDB(String user){
         //Chargement des fiches à partir de la bd
         FicheRepository ficheRepository = new FicheRepository();
-        ficheRepository.query(user).observe(this, new Observer<List<Fiche>>() {
+        @SuppressLint("WrongConstant") SharedPreferences sh = getSharedPreferences("User", MODE_APPEND);
+        String token = sh.getString("token", "");
+
+        ficheRepository.query(user,token).observe(this, new Observer<List<Fiche>>() {
             @Override
             public void onChanged(List<Fiche> fichesBd) {
                 fiches.clear();
-                fiches.addAll(fichesBd);
-                arrayAdapter.notifyDataSetChanged();
+                if(fichesBd != null) {
+                    fiches.addAll(fichesBd);
+                    arrayAdapter.notifyDataSetChanged();
+                }
+                else{
+                    Toast.makeText(MainActivity.this,"Erreur lors de la connexion à la base de données",Toast.LENGTH_LONG).show();
+                }
             }
         });
     }

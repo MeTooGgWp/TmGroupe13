@@ -1447,6 +1447,16 @@
 
     </LinearLayout>
 
+    <Button
+        android:id="@+id/btn_goToDetail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Détails"
+        android:onClick="goToDetails"
+        app:layout_constraintEnd_toStartOf="@+id/btn_submitFiche"
+        app:layout_constraintStart_toEndOf="@+id/tv_language"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout3" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

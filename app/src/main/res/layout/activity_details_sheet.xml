@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginStart="50dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="50dp"
         android:layout_marginBottom="50dp"
         android:orientation="vertical"
@@ -23,81 +23,98 @@
             android:id="@+id/btn_allies"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="allies et organisation"
-            android:onClick="modifyStringValue"/>
+            android:onClick="modifyStringValue"
+            android:text="allies et organisation" />
 
         <Button
             android:id="@+id/btn_age"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Age"
-            android:onClick="modifyStringValue"/>
+            android:onClick="modifyStringValue"
+            android:text="Age" />
 
         <Button
             android:id="@+id/btn_apparence"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Apparence"
-            android:onClick="modifyStringValue"/>
+            android:onClick="modifyStringValue"
+            android:text="Apparence" />
 
         <Button
             android:id="@+id/btn_Backstory"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Backstory" />
+            android:onClick="modifyStringValue"
+            android:text="Backstory" />/>
 
         <Button
             android:id="@+id/btn_capacite_et_traits"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Capacité et trait" />
+            android:onClick="modifyStringValue"
+            android:text="Capacité et trait" />/>
 
         <Button
             android:id="@+id/btn_defaut"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Defauts" />
+            android:onClick="modifyStringValue"
+            android:text="Defauts" />/>
 
         <Button
             android:id="@+id/btn_equipement"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Equipement" />
+            android:onClick="modifyStringValue"
+            android:text="Equipement" />/>
 
         <Button
             android:id="@+id/btn_historique"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Historique" />
+            android:onClick="modifyStringValue"
+            android:text="Historique" />/>
 
         <Button
             android:id="@+id/btn_ideaux"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Ideaux" />
+            android:onClick="modifyStringValue"
+            android:text="Ideaux" />/>
 
         <Button
             android:id="@+id/btn_liens"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Liens" />
+            android:onClick="modifyStringValue"
+            android:text="Liens" />/>
 
         <Button
             android:id="@+id/btn_note"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Note" />
+            android:onClick="modifyStringValue"
+            android:text="Note" />/>
 
         <Button
             android:id="@+id/btn_traitsPerso"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Traits et personalités" />
+            android:onClick="modifyStringValue"
+            android:text="Traits et personalités" />/>
 
         <Button
             android:id="@+id/btn_sorts"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:onClick="modifyStringValue"
             android:text="Sorts" />
+
+        <ImageButton
+            android:id="@+id/im_saveDetail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="onSave"
+            app:srcCompat="@android:drawable/ic_menu_save" />/>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

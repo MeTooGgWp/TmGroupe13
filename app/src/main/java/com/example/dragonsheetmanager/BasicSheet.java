@@ -3,7 +3,9 @@ package com.example.dragonsheetmanager;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
@@ -19,6 +21,7 @@ import java.util.List;
 
 import model.Attaque;
 import model.Competence;
+import model.DeathRollManager;
 import model.Fiche;
 import model.SaveRollManager;
 import model.utilities.DiceRoller;
@@ -266,10 +269,11 @@ public class BasicSheet extends AppCompatActivity implements RequestCodes{
         lvAttaques.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.i("Attaque","j'ai une attaque");
                 final Attaque attaque = attaques.get(position);
                 int attackRoll = DiceRoller.roll(20) + attaque.getBonusAuJet();
                 int damageRoll = DiceRoller.roll(attaque.getDeDegat()) + attaque.getBonusAuDegat();
-                Log.i("Attaque",String.valueOf(damageRoll));
+
                 Toast.makeText(bs,
                         "Jet pour toucher : "+
                                 attackRoll +
@@ -549,6 +553,8 @@ public class BasicSheet extends AppCompatActivity implements RequestCodes{
                         fiche.getAttaques().add((Attaque)data.getSerializableExtra("ATT_VALUE"));
                         initArrayAdapter();
                         break;
+                    case REQUEST_CODE_FICHE:
+                        fiche = (Fiche) data.getSerializableExtra("ficheObject");
                 }
 
         }
@@ -566,7 +572,12 @@ public class BasicSheet extends AppCompatActivity implements RequestCodes{
 
         saveSkill();
         saveSaveRoll();
-        ficheRepository.update(fiche);
+        saveDeathRoll();
+
+        @SuppressLint("WrongConstant") SharedPreferences sh = getSharedPreferences("User", MODE_APPEND);
+        String token = sh.getString("token", "");
+
+        ficheRepository.update(fiche,token);
     }
 
 
@@ -580,7 +591,7 @@ public class BasicSheet extends AppCompatActivity implements RequestCodes{
         cbCharSave.isChecked()
         );
 
-        fiche.setSaveRolls(srm);
+        //fiche.setSaveRolls(srm);
 
     }
 
@@ -594,6 +605,27 @@ public class BasicSheet extends AppCompatActivity implements RequestCodes{
         fiche.setCompetences(comp);
     }
 
+    public void saveDeathRoll(){
+        int succes = 0;
+        int fail = 0;
+
+        for(int i =0;i<3;i++){
+            if(cbSucces[i].isChecked()){
+                succes++;
+            }
+            if (cbFail[i].isChecked()) {
+                fail++;
+            }
+
+        }
+
+        DeathRollManager drm = new DeathRollManager(
+                succes,
+                fail
+        );
+        fiche.setDeathRolls(drm);
+    }
+
 
     public void addAttack(View view) {
         Intent intent = new Intent(BasicSheet.this, FormAttaque.class);
@@ -603,37 +635,37 @@ public class BasicSheet extends AppCompatActivity implements RequestCodes{
     public void rollForce(View view) {
         int diceResult = DiceRoller.roll(20);
         int modifier = Integer.parseInt((tvForce_mod.getText().toString()));
-        Toast.makeText(this,String.valueOf(diceResult+modifier),Toast.LENGTH_LONG).show();
+        Toast.makeText(this,"Résultat : "+diceResult+" + "+ modifier + " = "+(diceResult+modifier),Toast.LENGTH_LONG).show();
     }
 
     public void rollDext(View view) {
         int diceResult = DiceRoller.roll(20);
         int modifier = Integer.parseInt((tvDext_mod.getText().toString()));
-        Toast.makeText(this,String.valueOf(diceResult+modifier),Toast.LENGTH_LONG).show();
+        Toast.makeText(this,"Résultat : "+diceResult+" + "+ modifier + " = "+(diceResult+modifier),Toast.LENGTH_LONG).show();
     }
 
     public void rollConst(View view) {
         int diceResult = DiceRoller.roll(20);
         int modifier = Integer.parseInt((tvConst_mod.getText().toString()));
-        Toast.makeText(this,String.valueOf(diceResult+modifier),Toast.LENGTH_LONG).show();
+        Toast.makeText(this,"Résultat : "+diceResult+" + "+ modifier + " = "+(diceResult+modifier),Toast.LENGTH_LONG).show();
     }
 
     public void rollIntel(View view) {
         int diceResult = DiceRoller.roll(20);
         int modifier = Integer.parseInt((tvIntel_mod.getText().toString()));
-        Toast.makeText(this,String.valueOf(diceResult+modifier),Toast.LENGTH_LONG).show();
+        Toast.makeText(this,"Résultat : "+diceResult+" + "+ modifier + " = "+(diceResult+modifier),Toast.LENGTH_LONG).show();
     }
 
     public void rollWisd(View view) {
         int diceResult = DiceRoller.roll(20);
         int modifier = Integer.parseInt((tvWisd_mod.getText().toString()));
-        Toast.makeText(this,String.valueOf(diceResult+modifier),Toast.LENGTH_LONG).show();
+        Toast.makeText(this,"Résultat : "+diceResult+" + "+ modifier + " = "+(diceResult+modifier),Toast.LENGTH_LONG).show();
     }
 
     public void rollChar(View view) {
         int diceResult = DiceRoller.roll(20);
         int modifier = Integer.parseInt((tvChar_mod.getText().toString()));
-        Toast.makeText(this,String.valueOf(diceResult+modifier),Toast.LENGTH_LONG).show();
+        Toast.makeText(this,"Résultat : "+diceResult+" + "+ modifier + " = "+(diceResult+modifier),Toast.LENGTH_LONG).show();
     }
 
     public void rollSaveRoll(View view) {
@@ -651,7 +683,7 @@ public class BasicSheet extends AppCompatActivity implements RequestCodes{
                     modifier = Integer.parseInt((tvForce_mod.getText().toString()));
                     masteryBonus = ModifierCalculator.getMasteryBonus(fiche.getBasicInfo().getNiveau());
                     total = diceResult + modifier + masteryBonus;
-                    Toast.makeText(this,String.valueOf(total),Toast.LENGTH_LONG).show();
+                    Toast.makeText(this,"Résultat : "+diceResult+" + "+modifier+" + "+masteryBonus+" = "+total, Toast.LENGTH_SHORT).show();
                 }
                 else{
                     rollForce(view);
@@ -663,7 +695,7 @@ public class BasicSheet extends AppCompatActivity implements RequestCodes{
                     modifier = Integer.parseInt((tvDext_mod.getText().toString()));
                     masteryBonus = ModifierCalculator.getMasteryBonus(fiche.getBasicInfo().getNiveau());
                     total = diceResult + modifier + masteryBonus;
-                    Toast.makeText(this,String.valueOf(total),Toast.LENGTH_LONG).show();
+                    Toast.makeText(this,"Résultat : "+diceResult+" + "+modifier+" + "+masteryBonus+" = "+total, Toast.LENGTH_SHORT).show();
                 }
                 else{
                     rollDext(view);
@@ -675,7 +707,7 @@ public class BasicSheet extends AppCompatActivity implements RequestCodes{
                     modifier = Integer.parseInt((tvConst_mod.getText().toString()));
                     masteryBonus = ModifierCalculator.getMasteryBonus(fiche.getBasicInfo().getNiveau());
                     total = diceResult + modifier + masteryBonus;
-                    Toast.makeText(this,String.valueOf(total),Toast.LENGTH_LONG).show();
+                    Toast.makeText(this,"Résultat : "+diceResult+" + "+modifier+" + "+masteryBonus+" = "+total, Toast.LENGTH_SHORT).show();
                 }
                 else{
                     rollConst(view);
@@ -687,7 +719,7 @@ public class BasicSheet extends AppCompatActivity implements RequestCodes{
                     modifier = Integer.parseInt((tvIntel_mod.getText().toString()));
                     masteryBonus = ModifierCalculator.getMasteryBonus(fiche.getBasicInfo().getNiveau());
                     total = diceResult + modifier + masteryBonus;
-                    Toast.makeText(this,String.valueOf(total),Toast.LENGTH_LONG).show();
+                    Toast.makeText(this,"Résultat : "+diceResult+" + "+modifier+" + "+masteryBonus+" = "+total, Toast.LENGTH_SHORT).show();
                 }
                 else{
                     rollIntel(view);
@@ -699,7 +731,7 @@ public class BasicSheet extends AppCompatActivity implements RequestCodes{
                     modifier = Integer.parseInt((tvWisd_mod.getText().toString()));
                     masteryBonus = ModifierCalculator.getMasteryBonus(fiche.getBasicInfo().getNiveau());
                     total = diceResult + modifier + masteryBonus;
-                    Toast.makeText(this,String.valueOf(total),Toast.LENGTH_LONG).show();
+                    Toast.makeText(this,"Résultat : "+diceResult+" + "+modifier+" + "+masteryBonus+" = "+total, Toast.LENGTH_SHORT).show();
                 }
                 else{
                     rollWisd(view);
@@ -711,7 +743,7 @@ public class BasicSheet extends AppCompatActivity implements RequestCodes{
                     modifier = Integer.parseInt((tvChar_mod.getText().toString()));
                     masteryBonus = ModifierCalculator.getMasteryBonus(fiche.getBasicInfo().getNiveau());
                     total = diceResult + modifier + masteryBonus;
-                    Toast.makeText(this,String.valueOf(total),Toast.LENGTH_LONG).show();
+                    Toast.makeText(this,"Résultat : "+diceResult+" + "+modifier+" + "+masteryBonus+" = "+total, Toast.LENGTH_SHORT).show();
                 }
                 else{
                     rollChar(view);
@@ -722,9 +754,10 @@ public class BasicSheet extends AppCompatActivity implements RequestCodes{
 
 
     public void skillRoll(View view) {
-        int diceResult;
-        int modifier;
+        int diceResult = 0;
+        int modifier = 0;
         int masteryBonus = ModifierCalculator.getMasteryBonus(fiche.getBasicInfo().getNiveau());
+        int displayedMasteryBonus = 0;
         int total = 0;
 
 
@@ -734,8 +767,10 @@ public class BasicSheet extends AppCompatActivity implements RequestCodes{
                 diceResult = DiceRoller.roll(20);
                 modifier = ModifierCalculator.getModifier(fiche.getCaracteristics().getDexterite());
                 total = diceResult + modifier;
-                if(competences[1].isChecked())
+                if(competences[1].isChecked()) {
                     total += masteryBonus;
+                    displayedMasteryBonus = masteryBonus;
+                }
                 break;
 
             case R.id.im_arcanes:
@@ -743,7 +778,10 @@ public class BasicSheet extends AppCompatActivity implements RequestCodes{
                 modifier = ModifierCalculator.getModifier(fiche.getCaracteristics().getIntelligence());
                 total = diceResult + modifier;
                 if(competences[2].isChecked())
+                {
                     total += masteryBonus;
+                    displayedMasteryBonus = masteryBonus;
+                }
                 break;
 
             case R.id.im_athletisme:
@@ -751,7 +789,10 @@ public class BasicSheet extends AppCompatActivity implements RequestCodes{
                 modifier = ModifierCalculator.getModifier(fiche.getCaracteristics().getForce());
                 total = diceResult + modifier;
                 if(competences[3].isChecked())
+                {
                     total += masteryBonus;
+                    displayedMasteryBonus = masteryBonus;
+                }
                 break;
 
             case R.id.im_discretion:
@@ -759,7 +800,10 @@ public class BasicSheet extends AppCompatActivity implements RequestCodes{
                 modifier = ModifierCalculator.getModifier(fiche.getCaracteristics().getDexterite());
                 total = diceResult + modifier;
                 if(competences[4].isChecked())
+                {
                     total += masteryBonus;
+                    displayedMasteryBonus = masteryBonus;
+                }
                 break;
 
             case R.id.im_dressage:
@@ -767,7 +811,10 @@ public class BasicSheet extends AppCompatActivity implements RequestCodes{
                 modifier = ModifierCalculator.getModifier(fiche.getCaracteristics().getSagesse());
                 total = diceResult + modifier;
                 if(competences[5].isChecked())
+                {
                     total += masteryBonus;
+                    displayedMasteryBonus = masteryBonus;
+                }
                 break;
 
             case R.id.im_escamatage:
@@ -775,7 +822,10 @@ public class BasicSheet extends AppCompatActivity implements RequestCodes{
                 modifier = ModifierCalculator.getModifier(fiche.getCaracteristics().getDexterite());
                 total = diceResult + modifier;
                 if(competences[6].isChecked())
+                {
                     total += masteryBonus;
+                    displayedMasteryBonus = masteryBonus;
+                }
                 break;
 
             case R.id.im_histoire:
@@ -783,7 +833,10 @@ public class BasicSheet extends AppCompatActivity implements RequestCodes{
                 modifier = ModifierCalculator.getModifier(fiche.getCaracteristics().getIntelligence());
                 total = diceResult + modifier;
                 if(competences[7].isChecked())
+                {
                     total += masteryBonus;
+                    displayedMasteryBonus = masteryBonus;
+                }
                 break;
 
             case R.id.im_intimidation:
@@ -791,7 +844,10 @@ public class BasicSheet extends AppCompatActivity implements RequestCodes{
                 modifier = ModifierCalculator.getModifier(fiche.getCaracteristics().getCharisme());
                 total = diceResult + modifier;
                 if(competences[8].isChecked())
+                {
                     total += masteryBonus;
+                    displayedMasteryBonus = masteryBonus;
+                }
                 break;
 
             case R.id.im_investigation:
@@ -799,7 +855,10 @@ public class BasicSheet extends AppCompatActivity implements RequestCodes{
                 modifier = ModifierCalculator.getModifier(fiche.getCaracteristics().getIntelligence());
                 total = diceResult + modifier;
                 if(competences[9].isChecked())
+                {
                     total += masteryBonus;
+                    displayedMasteryBonus = masteryBonus;
+                }
                 break;
 
             case R.id.im_medecine:
@@ -807,7 +866,10 @@ public class BasicSheet extends AppCompatActivity implements RequestCodes{
                 modifier = ModifierCalculator.getModifier(fiche.getCaracteristics().getIntelligence());
                 total = diceResult + modifier;
                 if(competences[10].isChecked())
+                {
                     total += masteryBonus;
+                    displayedMasteryBonus = masteryBonus;
+                }
                 break;
 
             case R.id.im_nature:
@@ -815,7 +877,10 @@ public class BasicSheet extends AppCompatActivity implements RequestCodes{
                 modifier = ModifierCalculator.getModifier(fiche.getCaracteristics().getSagesse());
                 total = diceResult + modifier;
                 if(competences[11].isChecked())
+                {
                     total += masteryBonus;
+                    displayedMasteryBonus = masteryBonus;
+                }
                 break;
 
             case R.id.im_perception:
@@ -823,7 +888,10 @@ public class BasicSheet extends AppCompatActivity implements RequestCodes{
                 modifier = ModifierCalculator.getModifier(fiche.getCaracteristics().getSagesse());
                 total = diceResult + modifier;
                 if(competences[12].isChecked())
+                {
                     total += masteryBonus;
+                    displayedMasteryBonus = masteryBonus;
+                }
                 break;
 
             case R.id.im_perspicacite:
@@ -831,7 +899,10 @@ public class BasicSheet extends AppCompatActivity implements RequestCodes{
                 modifier = ModifierCalculator.getModifier(fiche.getCaracteristics().getSagesse());
                 total = diceResult + modifier;
                 if(competences[13].isChecked())
+                {
                     total += masteryBonus;
+                    displayedMasteryBonus = masteryBonus;
+                }
                 break;
 
             case R.id.im_persuasion:
@@ -839,7 +910,10 @@ public class BasicSheet extends AppCompatActivity implements RequestCodes{
                 modifier = ModifierCalculator.getModifier(fiche.getCaracteristics().getCharisme());
                 total = diceResult + modifier;
                 if(competences[14].isChecked())
+                {
                     total += masteryBonus;
+                    displayedMasteryBonus = masteryBonus;
+                }
                 break;
 
             case R.id.im_religion:
@@ -847,7 +921,10 @@ public class BasicSheet extends AppCompatActivity implements RequestCodes{
                 modifier = ModifierCalculator.getModifier(fiche.getCaracteristics().getIntelligence());
                 total = diceResult + modifier;
                 if(competences[15].isChecked())
+                {
                     total += masteryBonus;
+                    displayedMasteryBonus = masteryBonus;
+                }
                 break;
 
             case R.id.im_representation:
@@ -855,7 +932,10 @@ public class BasicSheet extends AppCompatActivity implements RequestCodes{
                 modifier = ModifierCalculator.getModifier(fiche.getCaracteristics().getCharisme());
                 total = diceResult + modifier;
                 if(competences[16].isChecked())
+                {
                     total += masteryBonus;
+                    displayedMasteryBonus = masteryBonus;
+                }
                 break;
 
             case R.id.im_survie:
@@ -863,7 +943,10 @@ public class BasicSheet extends AppCompatActivity implements RequestCodes{
                 modifier = ModifierCalculator.getModifier(fiche.getCaracteristics().getSagesse());
                 total = diceResult + modifier;
                 if(competences[17].isChecked())
+                {
                     total += masteryBonus;
+                    displayedMasteryBonus = masteryBonus;
+                }
                 break;
 
             case R.id.im_tromperie:
@@ -871,13 +954,23 @@ public class BasicSheet extends AppCompatActivity implements RequestCodes{
                 modifier = ModifierCalculator.getModifier(fiche.getCaracteristics().getCharisme());
                 total = diceResult + modifier;
                 if(competences[18].isChecked())
+                {
                     total += masteryBonus;
+                    displayedMasteryBonus = masteryBonus;
+                }
                 break;
         }
-        Toast.makeText(this, String.valueOf(total), Toast.LENGTH_SHORT).show();
+        Toast.makeText(this,"Résultat : "+diceResult+" + "+modifier+" + "+displayedMasteryBonus+" = "+total, Toast.LENGTH_SHORT).show();
     }
 
     public void rollLifeDice(View view) {
         Toast.makeText(this,String.valueOf(DiceRoller.roll(fiche.getHpManager().getHpDice())),Toast.LENGTH_LONG).show();
+    }
+
+    public void goToDetails(View view) {
+        Intent intent = new Intent(this,DetailsSheet.class);
+        intent.putExtra("ficheObject",fiche);
+        startActivityForResult(intent,REQUEST_CODE_FICHE);
+
     }
 }

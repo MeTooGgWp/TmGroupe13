@@ -54,9 +54,15 @@ public class DetailsSheet extends AppCompatActivity {
         Intent i = getIntent();
         //Dans un cadre hors-test passer par values.string !!
         fiche = (Fiche)i.getSerializableExtra("ficheObject");
-
         initView();
+    }
 
+
+    public void onSave(View view) {
+        Intent intent = new Intent();
+        intent.putExtra("ficheObject",fiche);
+        setResult(RESULT_OK, intent);
+        finish();
     }
 
     private void initView() {
@@ -82,8 +88,9 @@ public class DetailsSheet extends AppCompatActivity {
     }
 
 
-    private void startFormNumeric(float extra,int requestCode,Intent intent){
+    private void startFormNumeric(float extra,int requestCode){
         //Ajout d'un extra permettant d'auto-compléter l'editbox avec les élément déjà présent
+        Intent intent = new Intent(this,FormUserInputNumericActivity.class);
         intent.putExtra(AUTO_COMPLETE,extra);
         startActivityForResult(intent,requestCode);
     }
@@ -96,51 +103,45 @@ public class DetailsSheet extends AppCompatActivity {
             case(R.id.btn_allies):
                 startFormString(fiche.getBackgroundAndTrait().getAllieEtOrganisation(),REQUEST_CODE_FORM_USERINPUT_ALLIES,intent);
                 break;
-
             case(R.id.btn_age):
-                startFormNumeric(fiche.getBackgroundAndTrait().getAge(), REQUEST_CODE_FORM_USERINPUT_AGE,intent);
+                startFormNumeric((float)(fiche.getBackgroundAndTrait().getAge()), REQUEST_CODE_FORM_USERINPUT_AGE);
                 break;
-
             case(R.id.btn_apparence):
                 startFormString(fiche.getBackgroundAndTrait().getApparence(), REQUEST_CODE_FORM_USERINPUT_APPARENCE,intent);
                 break;
-
             case(R.id.btn_Backstory):
                 startFormString(fiche.getBackgroundAndTrait().getBackground(), REQUEST_CODE_FORM_USERINPUT_BACKSTORY,intent);
                 break;
-
             case(R.id.btn_capacite_et_traits):
                 startFormString(fiche.getCapaciteEtTrait(), REQUEST_CODE_FORM_USERINPUT_CAPACITE,intent);
                 break;
-
             case(R.id.btn_defaut):
                 startFormString(fiche.getBackgroundAndTrait().getDefauts(), REQUEST_CODE_FORM_USERINPUT_DEFAUT,intent);
                 break;
-
             case(R.id.btn_equipement):
                 startFormString(fiche.getEquipement(), REQUEST_CODE_FORM_USERINPUT_EQUIPEMENT,intent);
                 break;
-
             case(R.id.btn_historique):
                 startFormString(fiche.getBackgroundAndTrait().getHistorique(), REQUEST_CODE_FORM_USERINPUT_HISTORIQUE,intent);
                 break;
-
             case(R.id.btn_ideaux):
                 startFormString(fiche.getBackgroundAndTrait().getIdeaux(), REQUEST_CODE_FORM_USERINPUT_IDEAUX,intent);
                 break;
-
             case(R.id.btn_liens):
                 startFormString(fiche.getBackgroundAndTrait().getLiens(), REQUEST_CODE_FORM_USERINPUT_LIENS,intent);
                 break;
-
             case(R.id.btn_note):
                 startFormString(fiche.getNote(), REQUEST_CODE_FORM_USERINPUT_NOTE,intent);
                 break;
-
             case(R.id.btn_traitsPerso):
                 startFormString(fiche.getBackgroundAndTrait().getTraitDePersonnalite(), REQUEST_CODE_FORM_USERINPUT_TRAIT,intent);
                 break;
-
+            case(R.id.btn_sorts):
+                Intent i = new Intent(this,SortActivity.class);
+                fiche.sortSort();
+                i.putExtra("ficheObject",fiche);
+                startActivity(i);
+                break;
         }
 
     }
@@ -215,4 +216,6 @@ public class DetailsSheet extends AppCompatActivity {
         }
 
     }
+
+
 }

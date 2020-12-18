@@ -62,6 +62,9 @@ public interface RequestCodes {
     //Afin d'ajouter les sorts
     public static final int REQUEST_CODE_FORM_SORTS = 38 ;
 
+    //Retourner la fiche avec modif background
+    public static final int REQUEST_CODE_FICHE = 39;
+
 
 
 

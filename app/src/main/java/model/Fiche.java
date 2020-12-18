@@ -2,6 +2,8 @@ package model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 public class Fiche implements Serializable {
@@ -14,7 +16,7 @@ public class Fiche implements Serializable {
     private String note;
     private boolean inspiration;
     private List<Competence> competences;
-
+    private List<Sort> sorts;
     private List<Attaque> attaques;
 
     //Composant de la fiche :
@@ -27,77 +29,6 @@ public class Fiche implements Serializable {
     private CharacterMasteries masteries;
     private CaracteristicsManager caracteristics;
     private CharacterStatus status;
-
-
-    public Fiche(String idJoueur) {
-        this.idJoueur = idJoueur;
-        this.equipement = "Un bâton";
-        this.capaciteEtTrait ="Je sais faire des trucs";
-        this.note = "J'ai pris des notes !";
-        this.inspiration = true;
-
-        attaques = new ArrayList<>();
-        attaques.add(new Attaque("Bâton",2,"trcht",5,6));
-
-        basicInfo = new BasicCharacterInfo(
-                "Guerrier",
-                (byte) 1,
-                "Elfe",
-                "Patrick",
-                0
-        );
-
-        hpManager = new HealthPointManager(
-                10,
-                10,
-                0,
-                10
-        );
-        saveRolls = new SaveRollManager(
-                true,
-                false,
-                true,
-                false,
-                false,
-                false
-        );
-        wallet = new MoneyManager(
-                0,
-                0,
-                0,
-                0,
-                0
-        );
-        backgroundAndTrait = new PersonalityAndBackground(
-                5,
-                22
-        );
-        masteries = new CharacterMasteries(
-                "Arme courantes/guerre,bouclier,armures et plein d'autre truc pour prendre beaucoup de place dans la TextView",
-                "commun,elfique,nain"
-        );
-        caracteristics = new CaracteristicsManager(
-                16,
-                14,
-                15,
-                12,
-                13,
-                8
-        );
-        status = new CharacterStatus(
-                16,
-                0,
-                9
-        );
-        deathRolls = new DeathRollManager(2,1);
-        ArrayList<Integer> comp = new ArrayList<>();
-        comp.add(1);
-        comp.add(5);
-        competences = new ArrayList<Competence>();
-        competences.add(new Competence(5));
-        competences.add(new Competence(1));
-
-    }
 
     //Getters & Setters (used to applied modif and get information)
 
@@ -239,6 +170,18 @@ public class Fiche implements Serializable {
         this.attaques = attaques;
     }
 
+
+    public List<Sort> getSorts() {
+        if (sorts == null){
+            this.sorts = new ArrayList<>();
+        }
+        return sorts;
+    }
+
+    public void setSorts(List<Sort> sorts) {
+        this.sorts = sorts;
+    }
+
     @Override
     public String toString() {
         return "Fiche{" +
@@ -255,6 +198,10 @@ public class Fiche implements Serializable {
                 return true;
         }
         return false;
+    }
+
+    public void sortSort(){
+        Collections.sort(sorts);
     }
 
 
