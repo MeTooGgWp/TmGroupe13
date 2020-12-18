@@ -4,14 +4,14 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Competences implements Serializable {
+public class Competence implements Serializable {
 
     private int idComp;
 
-    public Competences(){
+    public Competence(){
     }
 
-    public Competences(int comp){
+    public Competence(int comp){
         idComp = comp;
     }
 

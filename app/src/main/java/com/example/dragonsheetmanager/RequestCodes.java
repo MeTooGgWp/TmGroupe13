@@ -14,6 +14,39 @@ public interface RequestCodes {
     public static final int REQUEST_CODE_FORM_USERINPUT_MASTERIES = 7;
     public static final int REQUEST_CODE_FORM_USERINPUT_LANGUAGES = 8;
 
+    //Pour les information de base du personnage :
+
+    public static final int REQUEST_CODE_FORM_USERINPUT_CHARACTER_NAME = 9;
+    public static final int REQUEST_CODE_FORM_USERINPUT_CHARACTER_CLASS = 10;
+    public static final int REQUEST_CODE_FORM_USERINPUT_CHARACTER_RACE = 11;
+    public static final int REQUEST_CODE_FORM_USERINPUT_CHARACTER_EXP = 12;
+    public static final int REQUEST_CODE_FORM_USERINPUT_CHARACTER_LEVEL = 13;
+
+    //Pour les informations du status :
+
+    public static final int REQUEST_CODE_FORM_USERINPUT_CA = 14;
+    public static final int REQUEST_CODE_FORM_USERINPUT_INITIATIVE = 15;
+    public static final int REQUEST_CODE_FORM_USERINPUT_SPEED = 16;
+
+
+    //Pour les hp
+    public static final int REQUEST_CODE_FORM_USERINPUT_HPMAX = 17;
+    public static final int REQUEST_CODE_FORM_USERINPUT_HPCURRENT = 18;
+    public static final int REQUEST_CODE_FORM_USERINPUT_HPTEMP = 19;
+
+    //Pour l'argent :
+
+    public static final int REQUEST_CODE_FORM_USERINPUT_COPPER = 20;
+    public static final int REQUEST_CODE_FORM_USERINPUT_SILVER = 21;
+    public static final int REQUEST_CODE_FORM_USERINPUT_ELECTRUM = 22;
+    public static final int REQUEST_CODE_FORM_USERINPUT_GOLD = 23;
+    public static final int REQUEST_CODE_FORM_USERINPUT_PLATINE = 24;
+
+    //Afin d'ajouter une attaque
+    public static final int REQUEST_CODE_FORM_ATTAQUE_ADD = 25;
+
+
+
 
 
 }

@@ -19,9 +19,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".BasicSheet" />
-        <activity android:name=".FormUserInputNumericActivity" />
-        <activity android:name=".FormUserInputStringActivity" />
+        <activity android:name=".BasicSheet"></activity>
+        <activity android:name=".FormUserInputNumericActivity"></activity>
+        <activity android:name=".FormUserInputStringActivity"></activity>
+        <activity android:name=".FormAttaque"></activity>
         <activity android:name=".MainActivity"></activity>
     </application>
 

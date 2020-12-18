@@ -10,6 +10,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import static com.example.dragonsheetmanager.BasicSheet.AUTO_COMPLETE;
+
 public class FormUserInputNumericActivity extends AppCompatActivity {
 
     public static final String NUM_VALUE = "NUM_VALUE";
@@ -27,6 +29,8 @@ public class FormUserInputNumericActivity extends AppCompatActivity {
     private void loadViews() {
         etUserInput = findViewById(R.id.et_userInputForSheet);
         etUserInput.setInputType(InputType.TYPE_CLASS_NUMBER);
+        Intent i = getIntent();
+        etUserInput.setText(String.valueOf(i.getFloatExtra(AUTO_COMPLETE,0)));
     }
 
 

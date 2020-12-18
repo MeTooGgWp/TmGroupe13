@@ -14,17 +14,21 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import model.Attaque;
+import model.Competence;
 import model.Fiche;
+import model.SaveRollManager;
+import model.utilities.DiceRoller;
 import model.utilities.ModifierCalculator;
 import repository.FicheRepository;
 
 public class BasicSheet extends AppCompatActivity implements RequestCodes{
 
     public static final String AUTO_COMPLETE = "AUTO_COMPLETE";
-
+    BasicSheet bs = this;
 
     private Fiche fiche;
 
@@ -65,7 +69,7 @@ public class BasicSheet extends AppCompatActivity implements RequestCodes{
     //Pv :
 
     private TextView tvHpMax,tvHpActuel,tvHpTemp;
-    private TextView tvDv,tvNbDv;
+    private TextView tvDv;
 
 
     //DeathRoll
@@ -92,9 +96,7 @@ public class BasicSheet extends AppCompatActivity implements RequestCodes{
         //Dans un cadre hors-test passer par values.string !!
         fiche = (Fiche)i.getSerializableExtra("ficheObject");
         //Initialisation des variables "graphique" :
-        //Pour le nom du personnage:
-        tvNomPersonnage = (TextView) findViewById(R.id.tv_characterName);
-        tvNomPersonnage.setText(fiche.getBasicInfo().getNomPersonnage());
+
         //Pour les informations basiques du personnage :
         initBasicInfo();
         //Concernant l'inspiration
@@ -190,10 +192,8 @@ public class BasicSheet extends AppCompatActivity implements RequestCodes{
         tvHpTemp.setText(String.valueOf(fiche.getHpManager().getTemporaryHp()));
 
         tvDv = (TextView) findViewById(R.id.tv_dv);
-        tvNbDv = (TextView) findViewById(R.id.tv_nbDv);
 
         tvDv.setText("Type dé : d"+String.valueOf(fiche.getHpManager().getHpDice()));
-        tvNbDv.setText("Restant : "+String.valueOf(fiche.getBasicInfo().getNiveau()));
     }
 
     private void initLanguageAndMasteries() {
@@ -267,6 +267,16 @@ public class BasicSheet extends AppCompatActivity implements RequestCodes{
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 final Attaque attaque = attaques.get(position);
+                int attackRoll = DiceRoller.roll(20) + attaque.getBonusAuJet();
+                int damageRoll = DiceRoller.roll(attaque.getDeDegat()) + attaque.getBonusAuDegat();
+                Log.i("Attaque",String.valueOf(damageRoll));
+                Toast.makeText(bs,
+                        "Jet pour toucher : "+
+                                attackRoll +
+                                "Jet de dégats : " +
+                                damageRoll,
+                        Toast.LENGTH_LONG);
+
             }
         });
 
@@ -287,6 +297,11 @@ public class BasicSheet extends AppCompatActivity implements RequestCodes{
     }
 
     public void initBasicInfo(){
+        //Pour le nom du personnage:
+        tvNomPersonnage = (TextView) findViewById(R.id.tv_characterName);
+        tvNomPersonnage.setText(fiche.getBasicInfo().getNomPersonnage());
+
+
         tvClasse = (TextView) findViewById(R.id.tv_classe);
         tvNiveau = (TextView) findViewById(R.id.tv_niveau);
         tvRace = (TextView) findViewById(R.id.tv_race);
@@ -302,28 +317,71 @@ public class BasicSheet extends AppCompatActivity implements RequestCodes{
     public void modifyNumericValue(View view) {
         //On "active" le formulaire
         Intent intent = new Intent(BasicSheet.this, FormUserInputNumericActivity.class);
-
+        int extra;
 
         switch (view.getId())
         {
+
             case R.id.im_forceEdit:
-                startActivityForResult(intent,REQUEST_CODE_FORM_USERINPUT_FORCE);
+                startFormNumeric(R.id.tv_force,REQUEST_CODE_FORM_USERINPUT_FORCE,intent);
                 break;
             case R.id.im_dextEditEdit:
-                startActivityForResult(intent,REQUEST_CODE_FORM_USERINPUT_DEXT);
+                startFormNumeric(R.id.tv_dext,REQUEST_CODE_FORM_USERINPUT_DEXT,intent);
                 break;
             case R.id.im_constEdit:
-                startActivityForResult(intent,REQUEST_CODE_FORM_USERINPUT_CONST);
+                startFormNumeric(R.id.tv_const,REQUEST_CODE_FORM_USERINPUT_CONST,intent);
                 break;
             case R.id.im_intelEdit:
-                startActivityForResult(intent,REQUEST_CODE_FORM_USERINPUT_INTEL);
+                startFormNumeric(R.id.tv_intel,REQUEST_CODE_FORM_USERINPUT_INTEL,intent);
                 break;
             case R.id.im_wisdEdit:
-                startActivityForResult(intent,REQUEST_CODE_FORM_USERINPUT_WISD);
+                startFormNumeric(R.id.tv_wisd,REQUEST_CODE_FORM_USERINPUT_WISD,intent);
                 break;
             case R.id.im_charEdit:
-                startActivityForResult(intent,REQUEST_CODE_FORM_USERINPUT_CHAR);
+                startFormNumeric(R.id.tv_char,REQUEST_CODE_FORM_USERINPUT_CHAR,intent);
                 break;
+            case R.id.im_characterLevelEdit:
+                startFormNumeric(R.id.tv_niveau,REQUEST_CODE_FORM_USERINPUT_CHARACTER_LEVEL,intent);
+                break;
+            case R.id.im_characterExpEdit:
+                startFormNumeric(R.id.tv_exp,REQUEST_CODE_FORM_USERINPUT_CHARACTER_EXP,intent);
+                break;
+            case R.id.im_caEdit:
+                startFormNumeric(R.id.tv_ca,REQUEST_CODE_FORM_USERINPUT_CA,intent);
+                break;
+            case R.id.im_initiativeEdit:
+                startFormNumeric(R.id.tv_init,REQUEST_CODE_FORM_USERINPUT_INITIATIVE,intent);
+                break;
+            case R.id.im_vitesseEdit:
+                startFormNumeric(R.id.tv_vit,REQUEST_CODE_FORM_USERINPUT_SPEED,intent);
+                break;
+            case R.id.im_hpMaxEdit:
+                startFormNumeric(R.id.tv_pvMax,REQUEST_CODE_FORM_USERINPUT_HPMAX,intent);
+                break;
+            case R.id.im_hpCurrentEdit:
+                startFormNumeric(R.id.tv_pvActuel,REQUEST_CODE_FORM_USERINPUT_HPCURRENT,intent);
+                break;
+            case R.id.im_hpTempEdit:
+                startFormNumeric(R.id.tv_pvTemp,REQUEST_CODE_FORM_USERINPUT_HPTEMP,intent);
+                break;
+            case R.id.im_copperEdit:
+                startFormNumeric(R.id.tv_copperValue,REQUEST_CODE_FORM_USERINPUT_COPPER,intent);
+                break;
+            case R.id.im_silverEdit:
+                startFormNumeric(R.id.tv_silverValue,REQUEST_CODE_FORM_USERINPUT_SILVER,intent);
+                break;
+            case R.id.im_electrumEdit:
+                startFormNumeric(R.id.tv_electrumValue,REQUEST_CODE_FORM_USERINPUT_ELECTRUM,intent);
+                break;
+            case R.id.im_goldEdit:
+                startFormNumeric(R.id.tv_goldValue,REQUEST_CODE_FORM_USERINPUT_GOLD,intent);
+                break;
+            case R.id.im_platinedEdit:
+                startFormNumeric(R.id.tv_platineValue,REQUEST_CODE_FORM_USERINPUT_PLATINE,intent);
+                break;
+
+
+
 
         }
     }
@@ -331,18 +389,44 @@ public class BasicSheet extends AppCompatActivity implements RequestCodes{
     public void modifyStringValue(View view) {
         //On "active" le formulaire
         Intent intent = new Intent(BasicSheet.this, FormUserInputStringActivity.class);
-
         //Gestion des différents boutons :
         switch(view.getId()){
             case(R.id.im_masteriesEdit):
-                //Ajout d'un extra permettant d'auto-compléter l'editbox avec les élément déjà présent
-                String extra = ((TextView)findViewById(R.id.tv_masteries)).getText().toString();
-                intent.putExtra(AUTO_COMPLETE,extra);
-                startActivityForResult(intent,REQUEST_CODE_FORM_USERINPUT_MASTERIES);
+                startFormString(R.id.tv_masteries,REQUEST_CODE_FORM_USERINPUT_MASTERIES,intent);
                 break;
+            case(R.id.im_languagesEdit):
+                startFormString(R.id.tv_language,REQUEST_CODE_FORM_USERINPUT_LANGUAGES,intent);
+                break;
+            case(R.id.im_characterNameEdit):
+                startFormString(R.id.tv_characterName,REQUEST_CODE_FORM_USERINPUT_CHARACTER_NAME,intent);
+                break;
+            case(R.id.im_characterClassEdit):
+                startFormString(R.id.tv_classe,REQUEST_CODE_FORM_USERINPUT_CHARACTER_CLASS,intent);
+                break;
+            case(R.id.im_characterRaceEdit):
+                startFormString(R.id.tv_race,REQUEST_CODE_FORM_USERINPUT_CHARACTER_RACE,intent);
+                break;
+
         }
 
     }
+
+    private void startFormString(int idElement,int requestCode,Intent intent){
+        //Ajout d'un extra permettant d'auto-compléter l'editbox avec les élément déjà présent
+        String extra = ((TextView)findViewById(idElement)).getText().toString();
+        intent.putExtra(AUTO_COMPLETE,extra);
+        startActivityForResult(intent,requestCode);
+    }
+
+
+    private void startFormNumeric(int idElement,int requestCode,Intent intent){
+        //Ajout d'un extra permettant d'auto-compléter l'editbox avec les élément déjà présent
+        float extra = Float.parseFloat(((TextView)findViewById(idElement)).getText().toString());
+        intent.putExtra(AUTO_COMPLETE,extra);
+        startActivityForResult(intent,requestCode);
+    }
+
+
 
 
     @Override
@@ -392,19 +476,408 @@ public class BasicSheet extends AppCompatActivity implements RequestCodes{
                         fiche.getMasteries().setMaitrises(reponseStr);
                         initLanguageAndMasteries();
                         break;
+                    case REQUEST_CODE_FORM_USERINPUT_LANGUAGES:
+                        fiche.getMasteries().setLangues(reponseStr);
+                        initLanguageAndMasteries();
+                        break;
+                    case REQUEST_CODE_FORM_USERINPUT_CHARACTER_NAME:
+                        fiche.getBasicInfo().setNomPersonnage(reponseStr);
+                        initBasicInfo();
+                        break;
+                    case REQUEST_CODE_FORM_USERINPUT_CHARACTER_CLASS:
+                        fiche.getBasicInfo().setClasse(reponseStr);
+                        initBasicInfo();
+                        break;
+                    case REQUEST_CODE_FORM_USERINPUT_CHARACTER_RACE:
+                        fiche.getBasicInfo().setRace(reponseStr);
+                        initBasicInfo();
+                        break;
+                    case REQUEST_CODE_FORM_USERINPUT_CHARACTER_LEVEL:
+                        fiche.getBasicInfo().setNiveau((int)reponseNum);
+                        initBasicInfo();
+                        tvBonusMaitrise.setText(String.valueOf(ModifierCalculator.getMasteryBonus(fiche.getBasicInfo().getNiveau())));
+                        break;
+                    case REQUEST_CODE_FORM_USERINPUT_CHARACTER_EXP:
+                        fiche.getBasicInfo().setExperience((int)reponseNum);
+                        initBasicInfo();
+                        break;
+                    case REQUEST_CODE_FORM_USERINPUT_CA:
+                        fiche.getStatus().setClasseArmure((int)(reponseNum));
+                        initStatus();
+                        break;
+                    case REQUEST_CODE_FORM_USERINPUT_INITIATIVE:
+                        fiche.getStatus().setInitiative((int)(reponseNum));
+                        initStatus();
+                        break;
+                    case REQUEST_CODE_FORM_USERINPUT_SPEED:
+                        fiche.getStatus().setVitesse(reponseNum);
+                        initStatus();
+                        break;
+                    case REQUEST_CODE_FORM_USERINPUT_HPMAX:
+                        fiche.getHpManager().setMaxHp((int)reponseNum);
+                        initHp();
+                        break;
+                    case REQUEST_CODE_FORM_USERINPUT_HPCURRENT:
+                        fiche.getHpManager().setCurrentHp(((int)reponseNum));
+                        initHp();
+                        break;
+                    case REQUEST_CODE_FORM_USERINPUT_HPTEMP:
+                        fiche.getHpManager().setTemporaryHp((int)reponseNum);
+                        initHp();
+                        break;
+                    case REQUEST_CODE_FORM_USERINPUT_COPPER:
+                        fiche.getWallet().setCuivre((int)reponseNum);
+                        initWallet();
+                        break;
+                    case REQUEST_CODE_FORM_USERINPUT_SILVER:
+                        fiche.getWallet().setArgent((int)reponseNum);
+                        initWallet();
+                        break;
+                    case REQUEST_CODE_FORM_USERINPUT_ELECTRUM:
+                        fiche.getWallet().setElectrum((int)reponseNum);
+                        initWallet();
+                        break;
+                    case REQUEST_CODE_FORM_USERINPUT_GOLD:
+                        fiche.getWallet().setOr((int)reponseNum);
+                        initWallet();
+                        break;
+                    case REQUEST_CODE_FORM_USERINPUT_PLATINE:
+                        fiche.getWallet().setPlatine((int)reponseNum);
+                        initWallet();
+                        break;
+                    case REQUEST_CODE_FORM_ATTAQUE_ADD:
+                        fiche.getAttaques().add((Attaque)data.getSerializableExtra("ATT_VALUE"));
+                        initArrayAdapter();
+                        break;
                 }
 
         }
         else{
-            Toast.makeText(this,"Une erreur c'est produite",Toast.LENGTH_LONG).show();
+            Toast.makeText(this,"Les modifications n'ont pas été enregistrées",Toast.LENGTH_LONG).show();
         }
     }
 
 
     public void submitToBd(View view) {
         FicheRepository ficheRepository = new FicheRepository();
+        //Enregistres les élements variable en fin de session
+        //Enregistrer l'état de l'inspiration
+        fiche.setInspiration(cbInspiration.isChecked());
+
+        saveSkill();
+        saveSaveRoll();
         ficheRepository.update(fiche);
     }
 
 
+    public void saveSaveRoll(){
+        SaveRollManager srm = new SaveRollManager(
+        cbForceSave.isChecked(),
+        cbDextSave.isChecked(),
+        cbConstSave.isChecked(),
+        cbIntelSave.isChecked(),
+        cbWisdSave.isChecked(),
+        cbCharSave.isChecked()
+        );
+
+        fiche.setSaveRolls(srm);
+
+    }
+
+    public void saveSkill(){
+        List<Competence> comp = new ArrayList<>();
+        for(int i = 1;i<=18;i++){
+            if(competences[i].isChecked()){
+                comp.add(new Competence(i));
+            }
+        }
+        fiche.setCompetences(comp);
+    }
+
+
+    public void addAttack(View view) {
+        Intent intent = new Intent(BasicSheet.this, FormAttaque.class);
+        startActivityForResult(intent,REQUEST_CODE_FORM_ATTAQUE_ADD);
+    }
+
+    public void rollForce(View view) {
+        int diceResult = DiceRoller.roll(20);
+        int modifier = Integer.parseInt((tvForce_mod.getText().toString()));
+        Toast.makeText(this,String.valueOf(diceResult+modifier),Toast.LENGTH_LONG).show();
+    }
+
+    public void rollDext(View view) {
+        int diceResult = DiceRoller.roll(20);
+        int modifier = Integer.parseInt((tvDext_mod.getText().toString()));
+        Toast.makeText(this,String.valueOf(diceResult+modifier),Toast.LENGTH_LONG).show();
+    }
+
+    public void rollConst(View view) {
+        int diceResult = DiceRoller.roll(20);
+        int modifier = Integer.parseInt((tvConst_mod.getText().toString()));
+        Toast.makeText(this,String.valueOf(diceResult+modifier),Toast.LENGTH_LONG).show();
+    }
+
+    public void rollIntel(View view) {
+        int diceResult = DiceRoller.roll(20);
+        int modifier = Integer.parseInt((tvIntel_mod.getText().toString()));
+        Toast.makeText(this,String.valueOf(diceResult+modifier),Toast.LENGTH_LONG).show();
+    }
+
+    public void rollWisd(View view) {
+        int diceResult = DiceRoller.roll(20);
+        int modifier = Integer.parseInt((tvWisd_mod.getText().toString()));
+        Toast.makeText(this,String.valueOf(diceResult+modifier),Toast.LENGTH_LONG).show();
+    }
+
+    public void rollChar(View view) {
+        int diceResult = DiceRoller.roll(20);
+        int modifier = Integer.parseInt((tvChar_mod.getText().toString()));
+        Toast.makeText(this,String.valueOf(diceResult+modifier),Toast.LENGTH_LONG).show();
+    }
+
+    public void rollSaveRoll(View view) {
+        int diceResult;
+        int modifier;
+        int masteryBonus = 0;
+        int total;
+
+
+        switch (view.getId()){
+
+            case R.id.im_rollSaveForce:
+                if(cbForceSave.isChecked()){
+                    diceResult = DiceRoller.roll(20);
+                    modifier = Integer.parseInt((tvForce_mod.getText().toString()));
+                    masteryBonus = ModifierCalculator.getMasteryBonus(fiche.getBasicInfo().getNiveau());
+                    total = diceResult + modifier + masteryBonus;
+                    Toast.makeText(this,String.valueOf(total),Toast.LENGTH_LONG).show();
+                }
+                else{
+                    rollForce(view);
+                }
+                break;
+            case R.id.im_rollSaveDext:
+                if(cbDextSave.isChecked()){
+                    diceResult = DiceRoller.roll(20);
+                    modifier = Integer.parseInt((tvDext_mod.getText().toString()));
+                    masteryBonus = ModifierCalculator.getMasteryBonus(fiche.getBasicInfo().getNiveau());
+                    total = diceResult + modifier + masteryBonus;
+                    Toast.makeText(this,String.valueOf(total),Toast.LENGTH_LONG).show();
+                }
+                else{
+                    rollDext(view);
+                }
+                break;
+            case R.id.im_rollSaveConst:
+                if(cbConstSave.isChecked()){
+                    diceResult = DiceRoller.roll(20);
+                    modifier = Integer.parseInt((tvConst_mod.getText().toString()));
+                    masteryBonus = ModifierCalculator.getMasteryBonus(fiche.getBasicInfo().getNiveau());
+                    total = diceResult + modifier + masteryBonus;
+                    Toast.makeText(this,String.valueOf(total),Toast.LENGTH_LONG).show();
+                }
+                else{
+                    rollConst(view);
+                }
+                break;
+            case R.id.im_rollSaveIntel:
+                if(cbIntelSave.isChecked()){
+                    diceResult = DiceRoller.roll(20);
+                    modifier = Integer.parseInt((tvIntel_mod.getText().toString()));
+                    masteryBonus = ModifierCalculator.getMasteryBonus(fiche.getBasicInfo().getNiveau());
+                    total = diceResult + modifier + masteryBonus;
+                    Toast.makeText(this,String.valueOf(total),Toast.LENGTH_LONG).show();
+                }
+                else{
+                    rollIntel(view);
+                }
+                break;
+            case R.id.im_rollSaveWisd:
+                if(cbWisdSave.isChecked()){
+                    diceResult = DiceRoller.roll(20);
+                    modifier = Integer.parseInt((tvWisd_mod.getText().toString()));
+                    masteryBonus = ModifierCalculator.getMasteryBonus(fiche.getBasicInfo().getNiveau());
+                    total = diceResult + modifier + masteryBonus;
+                    Toast.makeText(this,String.valueOf(total),Toast.LENGTH_LONG).show();
+                }
+                else{
+                    rollWisd(view);
+                }
+                break;
+            case R.id.im_rollSaveChar:
+                if(cbCharSave.isChecked()){
+                    diceResult = DiceRoller.roll(20);
+                    modifier = Integer.parseInt((tvChar_mod.getText().toString()));
+                    masteryBonus = ModifierCalculator.getMasteryBonus(fiche.getBasicInfo().getNiveau());
+                    total = diceResult + modifier + masteryBonus;
+                    Toast.makeText(this,String.valueOf(total),Toast.LENGTH_LONG).show();
+                }
+                else{
+                    rollChar(view);
+                }
+                break;
+        }
+    }
+
+
+    public void skillRoll(View view) {
+        int diceResult;
+        int modifier;
+        int masteryBonus = ModifierCalculator.getMasteryBonus(fiche.getBasicInfo().getNiveau());
+        int total = 0;
+
+
+        switch (view.getId()){
+
+            case R.id.im_acrobatie:
+                diceResult = DiceRoller.roll(20);
+                modifier = ModifierCalculator.getModifier(fiche.getCaracteristics().getDexterite());
+                total = diceResult + modifier;
+                if(competences[1].isChecked())
+                    total += masteryBonus;
+                break;
+
+            case R.id.im_arcanes:
+                diceResult = DiceRoller.roll(20);
+                modifier = ModifierCalculator.getModifier(fiche.getCaracteristics().getIntelligence());
+                total = diceResult + modifier;
+                if(competences[2].isChecked())
+                    total += masteryBonus;
+                break;
+
+            case R.id.im_athletisme:
+                diceResult = DiceRoller.roll(20);
+                modifier = ModifierCalculator.getModifier(fiche.getCaracteristics().getForce());
+                total = diceResult + modifier;
+                if(competences[3].isChecked())
+                    total += masteryBonus;
+                break;
+
+            case R.id.im_discretion:
+                diceResult = DiceRoller.roll(20);
+                modifier = ModifierCalculator.getModifier(fiche.getCaracteristics().getDexterite());
+                total = diceResult + modifier;
+                if(competences[4].isChecked())
+                    total += masteryBonus;
+                break;
+
+            case R.id.im_dressage:
+                diceResult = DiceRoller.roll(20);
+                modifier = ModifierCalculator.getModifier(fiche.getCaracteristics().getSagesse());
+                total = diceResult + modifier;
+                if(competences[5].isChecked())
+                    total += masteryBonus;
+                break;
+
+            case R.id.im_escamatage:
+                diceResult = DiceRoller.roll(20);
+                modifier = ModifierCalculator.getModifier(fiche.getCaracteristics().getDexterite());
+                total = diceResult + modifier;
+                if(competences[6].isChecked())
+                    total += masteryBonus;
+                break;
+
+            case R.id.im_histoire:
+                diceResult = DiceRoller.roll(20);
+                modifier = ModifierCalculator.getModifier(fiche.getCaracteristics().getIntelligence());
+                total = diceResult + modifier;
+                if(competences[7].isChecked())
+                    total += masteryBonus;
+                break;
+
+            case R.id.im_intimidation:
+                diceResult = DiceRoller.roll(20);
+                modifier = ModifierCalculator.getModifier(fiche.getCaracteristics().getCharisme());
+                total = diceResult + modifier;
+                if(competences[8].isChecked())
+                    total += masteryBonus;
+                break;
+
+            case R.id.im_investigation:
+                diceResult = DiceRoller.roll(20);
+                modifier = ModifierCalculator.getModifier(fiche.getCaracteristics().getIntelligence());
+                total = diceResult + modifier;
+                if(competences[9].isChecked())
+                    total += masteryBonus;
+                break;
+
+            case R.id.im_medecine:
+                diceResult = DiceRoller.roll(20);
+                modifier = ModifierCalculator.getModifier(fiche.getCaracteristics().getIntelligence());
+                total = diceResult + modifier;
+                if(competences[10].isChecked())
+                    total += masteryBonus;
+                break;
+
+            case R.id.im_nature:
+                diceResult = DiceRoller.roll(20);
+                modifier = ModifierCalculator.getModifier(fiche.getCaracteristics().getSagesse());
+                total = diceResult + modifier;
+                if(competences[11].isChecked())
+                    total += masteryBonus;
+                break;
+
+            case R.id.im_perception:
+                diceResult = DiceRoller.roll(20);
+                modifier = ModifierCalculator.getModifier(fiche.getCaracteristics().getSagesse());
+                total = diceResult + modifier;
+                if(competences[12].isChecked())
+                    total += masteryBonus;
+                break;
+
+            case R.id.im_perspicacite:
+                diceResult = DiceRoller.roll(20);
+                modifier = ModifierCalculator.getModifier(fiche.getCaracteristics().getSagesse());
+                total = diceResult + modifier;
+                if(competences[13].isChecked())
+                    total += masteryBonus;
+                break;
+
+            case R.id.im_persuasion:
+                diceResult = DiceRoller.roll(20);
+                modifier = ModifierCalculator.getModifier(fiche.getCaracteristics().getCharisme());
+                total = diceResult + modifier;
+                if(competences[14].isChecked())
+                    total += masteryBonus;
+                break;
+
+            case R.id.im_religion:
+                diceResult = DiceRoller.roll(20);
+                modifier = ModifierCalculator.getModifier(fiche.getCaracteristics().getIntelligence());
+                total = diceResult + modifier;
+                if(competences[15].isChecked())
+                    total += masteryBonus;
+                break;
+
+            case R.id.im_representation:
+                diceResult = DiceRoller.roll(20);
+                modifier = ModifierCalculator.getModifier(fiche.getCaracteristics().getCharisme());
+                total = diceResult + modifier;
+                if(competences[16].isChecked())
+                    total += masteryBonus;
+                break;
+
+            case R.id.im_survie:
+                diceResult = DiceRoller.roll(20);
+                modifier = ModifierCalculator.getModifier(fiche.getCaracteristics().getSagesse());
+                total = diceResult + modifier;
+                if(competences[17].isChecked())
+                    total += masteryBonus;
+                break;
+
+            case R.id.im_tromperie:
+                diceResult = DiceRoller.roll(20);
+                modifier = ModifierCalculator.getModifier(fiche.getCaracteristics().getCharisme());
+                total = diceResult + modifier;
+                if(competences[18].isChecked())
+                    total += masteryBonus;
+                break;
+        }
+        Toast.makeText(this, String.valueOf(total), Toast.LENGTH_SHORT).show();
+    }
+
+    public void rollLifeDice(View view) {
+        Toast.makeText(this,String.valueOf(DiceRoller.roll(fiche.getHpManager().getHpDice())),Toast.LENGTH_LONG).show();
+    }
 }

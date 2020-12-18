@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView android:nestedScrollingEnabled="true"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/scrollview"
@@ -29,6 +30,7 @@
             android:layout_marginLeft="@dimen/SingleStatMarginLeft"
             android:layout_marginTop="@dimen/SingleStatMarginTop"
             android:layout_marginBottom="@dimen/SingleStatMarginBottom"
+            android:onClick="rollForce"
             android:background="@drawable/border"
             android:orientation="vertical">
 
@@ -63,6 +65,7 @@
             android:id="@+id/DextLayout"
             android:layout_width="@dimen/SingleStatLayoutWidth"
             android:layout_height="@dimen/SizeStatLayout"
+            android:onClick="rollDext"
             android:layout_marginLeft="@dimen/SingleStatMarginLeft"
             android:layout_marginTop="@dimen/SingleStatMarginTop"
             android:layout_marginBottom="@dimen/SingleStatMarginBottom"
@@ -98,6 +101,7 @@
             android:id="@+id/ConstLayout"
             android:layout_width="@dimen/SingleStatLayoutWidth"
             android:layout_height="@dimen/SizeStatLayout"
+            android:onClick="rollConst"
             android:layout_marginLeft="@dimen/SingleStatMarginLeft"
             android:layout_marginTop="@dimen/SingleStatMarginTop"
             android:layout_marginBottom="@dimen/SingleStatMarginBottom"
@@ -133,6 +137,7 @@
             android:id="@+id/IntelLayout"
             android:layout_width="@dimen/SingleStatLayoutWidth"
             android:layout_height="@dimen/SizeStatLayout"
+            android:onClick="rollIntel"
             android:layout_marginLeft="@dimen/SingleStatMarginLeft"
             android:layout_marginTop="@dimen/SingleStatMarginTop"
             android:layout_marginBottom="@dimen/SingleStatMarginBottom"
@@ -169,6 +174,7 @@
             android:id="@+id/WisdLayout"
             android:layout_width="@dimen/SingleStatLayoutWidth"
             android:layout_height="@dimen/SizeStatLayout"
+            android:onClick="rollWisd"
             android:layout_marginLeft="@dimen/SingleStatMarginLeft"
             android:layout_marginTop="@dimen/SingleStatMarginTop"
             android:layout_marginBottom="@dimen/SingleStatMarginBottom"
@@ -205,6 +211,7 @@
             android:id="@+id/CharLayout"
             android:layout_width="@dimen/SingleStatLayoutWidth"
             android:layout_height="@dimen/SizeStatLayout"
+            android:onClick="rollChar"
             android:layout_marginLeft="@dimen/SingleStatMarginLeft"
             android:layout_marginTop="@dimen/SingleStatMarginTop"
             android:layout_marginBottom="@dimen/SingleStatMarginBottom"
@@ -257,6 +264,13 @@
             android:layout_weight="1"
             android:text="TextView"
             android:textAlignment="center" />
+
+        <ImageButton
+            android:id="@+id/im_characterNameEdit"
+            android:layout_width="@dimen/imEditWidth"
+            android:layout_height="@dimen/imEditHeight"
+            android:onClick="modifyStringValue"
+            app:srcCompat="@android:drawable/ic_menu_edit"/>
     </LinearLayout>
 
     <LinearLayout
@@ -276,6 +290,13 @@
             android:layout_height="@dimen/CharacterInfoLayoutHeightDemi"
             android:orientation="horizontal">
 
+            <ImageButton
+                android:id="@+id/im_characterClassEdit"
+                android:layout_width="@dimen/imEditWidth"
+                android:layout_height="@dimen/imEditHeight"
+                android:onClick="modifyStringValue"
+                app:srcCompat="@android:drawable/ic_menu_edit" />
+
             <TextView
                 android:id="@+id/tv_classe"
                 android:layout_width="match_parent"
@@ -283,6 +304,13 @@
                 android:layout_weight="1"
                 android:textAlignment="center"
                 android:text="TextView" />
+
+            <ImageButton
+                android:id="@+id/im_characterLevelEdit"
+                android:layout_width="@dimen/imEditWidth"
+                android:layout_height="@dimen/imEditHeight"
+                android:onClick="modifyNumericValue"
+                app:srcCompat="@android:drawable/ic_menu_edit" />
 
             <TextView
                 android:id="@+id/tv_niveau"
@@ -298,6 +326,13 @@
             android:layout_height="@dimen/CharacterInfoLayoutHeightDemi"
             android:orientation="horizontal">
 
+            <ImageButton
+                android:id="@+id/im_characterRaceEdit"
+                android:layout_width="@dimen/imEditWidth"
+                android:layout_height="@dimen/imEditHeight"
+                android:onClick="modifyStringValue"
+                app:srcCompat="@android:drawable/ic_menu_edit" />
+
             <TextView
                 android:id="@+id/tv_race"
                 android:layout_width="match_parent"
@@ -305,6 +340,13 @@
                 android:textAlignment="center"
                 android:layout_weight="1"
                 android:text="TextView" />
+
+            <ImageButton
+                android:id="@+id/im_characterExpEdit"
+                android:layout_width="@dimen/imEditWidth"
+                android:layout_height="@dimen/imEditHeight"
+                android:onClick="modifyNumericValue"
+                app:srcCompat="@android:drawable/ic_menu_edit" />
 
             <TextView
                 android:id="@+id/tv_exp"
@@ -750,6 +792,13 @@
                 android:layout_weight="1"
                 android:text="value" />
 
+            <ImageButton
+                android:id="@+id/im_hpMaxEdit"
+                android:layout_width="@dimen/imEditWidth"
+                android:layout_height="@dimen/imEditHeight"
+                android:onClick="modifyNumericValue"
+                app:srcCompat="@android:drawable/ic_menu_edit" />
+
         </LinearLayout>
 
         <LinearLayout
@@ -774,6 +823,13 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="value" />
+
+            <ImageButton
+                android:id="@+id/im_hpCurrentEdit"
+                android:layout_width="@dimen/imEditWidth"
+                android:layout_height="@dimen/imEditHeight"
+                android:onClick="modifyNumericValue"
+                app:srcCompat="@android:drawable/ic_menu_edit" />
 
 
         </LinearLayout>
@@ -802,6 +858,12 @@
                 android:layout_weight="1"
                 android:text="value" />
 
+            <ImageButton
+                android:id="@+id/im_hpTempEdit"
+                android:layout_width="@dimen/imEditWidth"
+                android:layout_height="@dimen/imEditHeight"
+                android:onClick="modifyNumericValue"
+                app:srcCompat="@android:drawable/ic_menu_edit" />
 
 
         </LinearLayout>
@@ -820,6 +882,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:background="@drawable/border"
+                android:onClick="rollLifeDice"
 
                 android:layout_weight="1"
                 android:orientation="vertical">
@@ -831,12 +894,6 @@
                     android:textAlignment="center"
                     android:text="TextView" />
 
-                <TextView
-                    android:id="@+id/tv_nbDv"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textAlignment="center"
-                    android:text="TextView" />
             </LinearLayout>
 
             <LinearLayout
@@ -913,14 +970,14 @@
     </LinearLayout>
 
     <ListView
-                android:id="@+id/lv_attaques"
-                android:layout_width="@dimen/AttackListWidth"
-                android:layout_height="@dimen/AttackListHeight"
-                android:layout_marginTop="8dp"
-                app:layout_constraintEnd_toEndOf="@+id/hp_zoneLayout"
-                app:layout_constraintStart_toStartOf="@+id/hp_zoneLayout"
-                app:layout_constraintTop_toBottomOf="@+id/hp_zoneLayout">
-    </ListView>
+        android:id="@+id/lv_attaques"
+        android:layout_width="@dimen/AttackListWidth"
+        android:layout_height="@dimen/AttackListHeight"
+        android:layout_marginTop="32dp"
+        android:nestedScrollingEnabled="true"
+        app:layout_constraintEnd_toEndOf="@+id/hp_zoneLayout"
+        app:layout_constraintStart_toStartOf="@+id/hp_zoneLayout"
+        app:layout_constraintTop_toBottomOf="@+id/hp_zoneLayout"></ListView>
 
     <Button
         android:id="@+id/btn_addAttack"
@@ -928,6 +985,7 @@
         android:layout_height="40dp"
         android:text="+"
         android:textSize="@dimen/texteSizeDefault"
+        android:onClick="addAttack"
         app:layout_constraintStart_toStartOf="@+id/lv_attaques"
         app:layout_constraintTop_toBottomOf="@+id/lv_attaques" />
 
@@ -1091,10 +1149,11 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="24dp"
         android:layout_marginBottom="16dp"
-        android:text="Sauvegarder"
         android:onClick="submitToBd"
+        android:text="Sauvegarder"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout3" />
 
 
     <ImageButton
@@ -1105,6 +1164,288 @@
         app:layout_constraintEnd_toStartOf="@+id/tv_masteries"
         app:layout_constraintTop_toBottomOf="@+id/PpLayout"
         app:srcCompat="@android:drawable/ic_menu_edit" />
+
+    <ImageButton
+        android:id="@+id/im_languagesEdit"
+        android:layout_width="@dimen/imEditWidth"
+        android:layout_height="@dimen/imEditHeight"
+        android:onClick="modifyStringValue"
+        app:layout_constraintEnd_toStartOf="@+id/tv_language"
+        app:layout_constraintTop_toBottomOf="@+id/tv_masteries"
+        app:srcCompat="@android:drawable/ic_menu_edit" />
+
+
+    <ImageButton
+        android:id="@+id/im_caEdit"
+        android:layout_width="@dimen/imEditWidth"
+        android:layout_height="@dimen/imEditHeight"
+        android:onClick="modifyNumericValue"
+        app:layout_constraintBottom_toTopOf="@+id/CaLayout"
+        app:layout_constraintStart_toStartOf="@+id/CaLayout"
+        app:srcCompat="@android:drawable/ic_menu_edit" />
+
+    <ImageButton
+        android:id="@+id/im_initiativeEdit"
+        android:layout_width="@dimen/imEditWidth"
+        android:layout_height="@dimen/imEditHeight"
+        android:onClick="modifyNumericValue"
+        app:layout_constraintBottom_toTopOf="@+id/initativeLayout"
+        app:layout_constraintStart_toStartOf="@+id/initativeLayout"
+        app:srcCompat="@android:drawable/ic_menu_edit" />
+
+    <ImageButton
+        android:id="@+id/im_vitesseEdit"
+        android:layout_width="@dimen/imEditWidth"
+        android:layout_height="@dimen/imEditHeight"
+        android:onClick="modifyNumericValue"
+        app:layout_constraintBottom_toTopOf="@+id/vitLayout"
+        app:layout_constraintStart_toStartOf="@+id/vitLayout"
+        app:srcCompat="@android:drawable/ic_menu_edit" />
+
+
+    <ImageButton
+        android:id="@+id/im_copperEdit"
+        android:layout_width="16dp"
+        android:layout_height="21dp"
+        android:onClick="modifyNumericValue"
+        app:layout_constraintStart_toEndOf="@+id/linearLayout3"
+        app:layout_constraintTop_toTopOf="@+id/linearLayout3"
+        app:srcCompat="@android:drawable/ic_menu_edit" />
+
+    <ImageButton
+        android:id="@+id/im_silverEdit"
+        android:layout_width="16dp"
+        android:layout_height="19dp"
+        android:onClick="modifyNumericValue"
+        app:layout_constraintStart_toEndOf="@+id/linearLayout3"
+        app:layout_constraintTop_toBottomOf="@+id/im_copperEdit"
+        app:srcCompat="@android:drawable/ic_menu_edit" />
+
+
+    <ImageButton
+        android:id="@+id/im_electrumEdit"
+        android:layout_width="16dp"
+        android:layout_height="19dp"
+        android:onClick="modifyNumericValue"
+        app:layout_constraintStart_toEndOf="@+id/linearLayout3"
+        app:layout_constraintTop_toBottomOf="@+id/im_silverEdit"
+        app:srcCompat="@android:drawable/ic_menu_edit" />
+
+    <ImageButton
+        android:id="@+id/im_goldEdit"
+        android:layout_width="16dp"
+        android:layout_height="19dp"
+        android:onClick="modifyNumericValue"
+        app:layout_constraintStart_toEndOf="@+id/linearLayout3"
+        app:layout_constraintTop_toBottomOf="@+id/im_electrumEdit"
+        app:srcCompat="@android:drawable/ic_menu_edit" />
+
+
+    <ImageButton
+        android:id="@+id/im_platinedEdit"
+        android:layout_width="16dp"
+        android:layout_height="19dp"
+        android:onClick="modifyNumericValue"
+        app:layout_constraintStart_toEndOf="@+id/linearLayout3"
+        app:layout_constraintTop_toBottomOf="@+id/im_goldEdit"
+        app:srcCompat="@android:drawable/ic_menu_edit" />
+
+    <LinearLayout
+        android:id="@+id/rollSaveLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="@+id/SauvegardeLayout"
+        app:layout_constraintEnd_toStartOf="@+id/hp_zoneLayout"
+        app:layout_constraintStart_toEndOf="@+id/SauvegardeLayout"
+        app:layout_constraintTop_toTopOf="@+id/SauvegardeLayout">
+
+
+        <ImageButton
+            android:id="@+id/im_rollSaveForce"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:onClick="rollSaveRoll"
+            app:srcCompat="@android:drawable/ic_menu_more" />
+
+        <ImageButton
+            android:id="@+id/im_rollSaveDext"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:onClick="rollSaveRoll"
+            app:srcCompat="@android:drawable/ic_menu_more" />
+
+        <ImageButton
+            android:id="@+id/im_rollSaveConst"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:onClick="rollSaveRoll"
+            app:srcCompat="@android:drawable/ic_menu_more" />
+
+        <ImageButton
+            android:id="@+id/im_rollSaveIntel"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:onClick="rollSaveRoll"
+            app:srcCompat="@android:drawable/ic_menu_more" />
+
+        <ImageButton
+            android:id="@+id/im_rollSaveWisd"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:onClick="rollSaveRoll"
+            app:srcCompat="@android:drawable/ic_menu_more" />
+
+        <ImageButton
+            android:id="@+id/im_rollSaveChar"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:onClick="rollSaveRoll"
+            app:srcCompat="@android:drawable/ic_menu_more" />
+
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/skillRollLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toStartOf="@+id/lv_attaques"
+        app:layout_constraintStart_toEndOf="@+id/skillLayout"
+        app:layout_constraintTop_toTopOf="@+id/skillLayout">
+
+        <ImageButton
+            android:id="@+id/im_acrobatie"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:onClick="skillRoll"
+            app:srcCompat="@android:drawable/ic_menu_more" />
+
+        <ImageButton
+            android:id="@+id/im_arcanes"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:onClick="skillRoll"
+            app:srcCompat="@android:drawable/ic_menu_more" />
+
+        <ImageButton
+            android:id="@+id/im_athletisme"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:onClick="skillRoll"
+            app:srcCompat="@android:drawable/ic_menu_more" />
+
+        <ImageButton
+            android:id="@+id/im_discretion"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:onClick="skillRoll"
+            app:srcCompat="@android:drawable/ic_menu_more" />
+
+        <ImageButton
+            android:id="@+id/im_dressage"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:onClick="skillRoll"
+            app:srcCompat="@android:drawable/ic_menu_more" />
+
+        <ImageButton
+            android:id="@+id/im_escamatage"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:onClick="rollSaveRoll"
+            app:srcCompat="@android:drawable/ic_menu_more" />
+
+        <ImageButton
+            android:id="@+id/im_histoire"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:onClick="skillRoll"
+            app:srcCompat="@android:drawable/ic_menu_more" />
+
+        <ImageButton
+            android:id="@+id/im_intimidation"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:onClick="skillRoll"
+            app:srcCompat="@android:drawable/ic_menu_more" />
+
+        <ImageButton
+            android:id="@+id/im_investigation"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:onClick="skillRoll"
+            app:srcCompat="@android:drawable/ic_menu_more" />
+
+        <ImageButton
+            android:id="@+id/im_medecine"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:onClick="skillRoll"
+            app:srcCompat="@android:drawable/ic_menu_more" />
+
+        <ImageButton
+            android:id="@+id/im_nature"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:onClick="skillRoll"
+            app:srcCompat="@android:drawable/ic_menu_more" />
+
+        <ImageButton
+            android:id="@+id/im_perception"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:onClick="skillRoll"
+            app:srcCompat="@android:drawable/ic_menu_more" />
+
+        <ImageButton
+            android:id="@+id/im_perspicacite"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:onClick="skillRoll"
+            app:srcCompat="@android:drawable/ic_menu_more" />
+
+        <ImageButton
+            android:id="@+id/im_persuasion"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:onClick="skillRoll"
+            app:srcCompat="@android:drawable/ic_menu_more" />
+
+        <ImageButton
+            android:id="@+id/im_religion"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:onClick="skillRoll"
+            app:srcCompat="@android:drawable/ic_menu_more" />
+
+        <ImageButton
+            android:id="@+id/im_representation"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:onClick="skillRoll"
+            app:srcCompat="@android:drawable/ic_menu_more" />
+
+        <ImageButton
+            android:id="@+id/im_survie"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:onClick="skillRoll"
+            app:srcCompat="@android:drawable/ic_menu_more" />
+
+        <ImageButton
+            android:id="@+id/im_tromperie"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:onClick="skillRoll"
+            app:srcCompat="@android:drawable/ic_menu_more" />
+
+
+
+
+    </LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,9 +1,6 @@
 package model;
 
-import android.content.Intent;
-
 import java.io.Serializable;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +13,7 @@ public class Fiche implements Serializable {
     private String capaciteEtTrait;
     private String note;
     private boolean inspiration;
-    private List<Competences> competences;
+    private List<Competence> competences;
 
     private List<Attaque> attaques;
 
@@ -96,9 +93,9 @@ public class Fiche implements Serializable {
         ArrayList<Integer> comp = new ArrayList<>();
         comp.add(1);
         comp.add(5);
-        competences = new ArrayList<Competences>();
-        competences.add(new Competences(5));
-        competences.add(new Competences(1));
+        competences = new ArrayList<Competence>();
+        competences.add(new Competence(5));
+        competences.add(new Competence(1));
 
     }
 
@@ -225,11 +222,11 @@ public class Fiche implements Serializable {
         this.status = status;
     }
 
-   public List<Competences> getCompetences() {
+   public List<Competence> getCompetences() {
         return competences;
     }
 
-    public void setCompetences(List<Competences> competences) {
+    public void setCompetences(List<Competence> competences) {
         this.competences = competences;
     }
 
@@ -253,7 +250,7 @@ public class Fiche implements Serializable {
 
 
     public boolean isMasterised(int id){
-        for(Competences c:competences){
+        for(Competence c:competences){
             if (c.getCompetences() == id)
                 return true;
         }

@@ -31,7 +31,7 @@ public class BasicCharacterInfo implements Serializable {
         return niveau;
     }
 
-    public void setNiveau(byte niveau) {
+    public void setNiveau(int niveau) {
         this.niveau = niveau;
     }
 
